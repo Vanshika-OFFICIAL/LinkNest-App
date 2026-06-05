@@ -5,12 +5,15 @@ const {
   deleteCollection,
   getCollectionById,
 } = require("../services/collection.service");
-//create collection
+
+// Create Collection
 const create = async (req, res) => {
   try {
     const collection = await createCollection({
       name: req.body.name,
-      parentCollection: req.body.parentCollection,
+      color: req.body.color,
+      icon: req.body.icon,
+      parentCollection: req.body.parentCollection || null,
       userId: req.user._id,
     });
 
@@ -25,12 +28,11 @@ const create = async (req, res) => {
     });
   }
 };
-//get all collections for a user
+
+// Get All Collections
 const getAll = async (req, res) => {
   try {
-    const collections = await getCollections(
-      req.user._id
-    );
+    const collections = await getCollections(req.user._id);
 
     res.status(200).json({
       success: true,
@@ -43,15 +45,14 @@ const getAll = async (req, res) => {
     });
   }
 };
-//Update collection
-const update = async (req, res) => {
+
+// Get Collection By ID
+const getOne = async (req, res) => {
   try {
-    const collection =
-      await updateCollection(
-        req.params.id,
-        req.user._id,
-        req.body
-      );
+    const collection = await getCollectionById(
+      req.params.id,
+      req.user._id
+    );
 
     if (!collection) {
       return res.status(404).json({
@@ -71,14 +72,42 @@ const update = async (req, res) => {
     });
   }
 };
-//delete collection and its links means cascade deletion
+
+// Update Collection
+const update = async (req, res) => {
+  try {
+    const collection = await updateCollection(
+      req.params.id,
+      req.user._id,
+      req.body
+    );
+
+    if (!collection) {
+      return res.status(404).json({
+        success: false,
+        message: "Collection not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      collection,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Delete Collection
 const remove = async (req, res) => {
   try {
-    const collection =
-      await deleteCollection(
-        req.params.id,
-        req.user._id
-      );
+    const collection = await deleteCollection(
+      req.params.id,
+      req.user._id
+    );
 
     if (!collection) {
       return res.status(404).json({
@@ -92,37 +121,6 @@ const remove = async (req, res) => {
       message:
         "Collection and all related links deleted successfully",
     });
-
-  } catch (error) {
-
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-
-  }
-};
-//get collection by id
-const getOne = async (req, res) => {
-  try {
-    const collection =
-      await getCollectionById(
-        req.params.id,
-        req.user._id
-      );
-
-    if (!collection) {
-      return res.status(404).json({
-        success: false,
-        message: "Collection not found",
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      collection: data.collection,
-      totalLinks: data.totalLinks,
-    });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -130,10 +128,11 @@ const getOne = async (req, res) => {
     });
   }
 };
+
 module.exports = {
   create,
   getAll,
+  getOne,
   update,
   remove,
-  getOne,
 };
