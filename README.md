@@ -1,207 +1,305 @@
 # 🚀 LinkNest
 
-> A full-stack MERN resource management platform for organizing, searching, favoriting, and archiving bookmarks through collections, tags, and dashboard analytics.
+> A modern full-stack MERN Knowledge Management Platform that helps users organize, discover, and manage digital resources through collections, favorites, archives, search, analytics, and secure authentication.
 
 ![Status](https://img.shields.io/badge/Status-Active-success)
+![Frontend](https://img.shields.io/badge/Frontend-Next.js-black)
 ![Backend](https://img.shields.io/badge/Backend-Node.js-green)
-![Database](https://img.shields.io/badge/Database-MongoDB-green)
+![Database](https://img.shields.io/badge/Database-MongoDB-success)
 ![Authentication](https://img.shields.io/badge/Auth-JWT-orange)
 
 ---
 
-## 📖 Overview
+# 🌐 Live Demo
 
-LinkNest is a modern bookmark and resource management platform designed for developers, students, researchers, and professionals who consume large amounts of online content.
+Frontend: `Coming Soon`
 
-Instead of relying on traditional browser bookmarks, LinkNest provides a structured system for organizing resources using collections, favorites, archives, tags, search, and analytics.
-
----
-
-## ❌ Problem Statement
-
-As users accumulate hundreds of bookmarks over time:
-
-* Important resources become difficult to find.
-* Browser bookmarks become cluttered.
-* Categorization is limited.
-* There is no centralized dashboard for managing knowledge resources.
-* Productivity decreases due to inefficient resource retrieval.
+Backend API: `Coming Soon`
 
 ---
 
-## 💡 Solution
+# 📖 Overview
 
-LinkNest solves these problems by providing:
+LinkNest is a Personal Knowledge Hub designed for developers, students, researchers, and professionals who frequently save online resources such as documentation, tutorials, courses, articles, tools, and references.
 
-* Collection-based organization
-* Advanced search capabilities
+Traditional browser bookmarks become cluttered over time and make resource retrieval difficult. LinkNest solves this problem through structured collections, advanced search, favorites, archives, dashboard analytics, and secure user-specific organization.
+
+---
+
+# ❌ Problem Statement
+
+As the number of saved resources grows:
+
+* Important resources become difficult to locate.
+* Browser bookmarks become unmanageable.
+* Categorization options are limited.
+* There is no dashboard for tracking resources.
+* Productivity decreases due to inefficient information retrieval.
+
+---
+
+# 💡 Solution
+
+LinkNest provides:
+
+* Structured resource collections
+* Resource tagging
 * Favorites system
-* Archive system
+* Archive workflow
+* Powerful search engine
 * Dashboard analytics
-* User-specific secure resource management
+* Secure authentication
+* User-specific resource management
 
 ---
 
-## ✨ Key Features
+# ✨ Core Features
 
-### 🔐 Authentication
+## 🔐 Authentication & Security
 
 * User Registration
 * User Login
 * JWT Authentication
 * Protected Routes
-* User Profile Retrieval
+* Persistent Sessions
+* Secure Password Hashing (bcrypt)
 
 ---
 
-### 📁 Collections Management
+## 🏠 Premium Landing Experience
+
+* Modern SaaS Landing Page
+* Responsive Design
+* Authentication CTA
+* Product Showcase
+* Feature Sections
+* About Section
+* Premium UI Components
+
+---
+
+## 📁 Smart Collections
 
 * Create Collections
-* View Collections
 * Update Collections
 * Delete Collections
-* Cascade Delete Support
+* Organize Resources
+* Collection-Based Navigation
+* Cascade Deletion Support
 
 ---
 
-### 🔗 Link Management
+## 🔗 Resource Management
 
-* Save Resources
-* Update Resources
+* Save Links
+* Edit Resources
 * Delete Resources
-* Categorize Resources
+* Resource Descriptions
+* Resource Tags
 * Collection Assignment
 
 ---
 
-### ⭐ Favorites
+## ⭐ Favorites
 
 * Mark Important Resources
-* Quick Access System
-* Favorite Resource Retrieval
+* Dedicated Favorites Section
+* Quick Resource Retrieval
 
 ---
 
-### 📦 Archive System
+## 📦 Archive System
 
-* Archive Inactive Resources
+* Archive Resources
 * Restore Workflow Ready
 * Workspace Cleanup
 
 ---
 
-### 🔍 Search
+## 🔍 Advanced Search
 
-Search resources by:
+Search resources using:
 
 * Title
 * Description
 * Tags
+* Collection Names
+
+Features:
+
+* Real-Time Search
+* Search Suggestions
+* Global Resource Discovery
 
 ---
 
-### 📊 Dashboard Analytics
+## 📊 Analytics Dashboard
 
 Track:
 
-* Total Links
-* Favorite Links
-* Archived Links
-* Collections
+* Total Resources
+* Collections Count
+* Favorite Resources
+* Archived Resources
+* Recent Activity
 
 ---
 
-## 🏗 Architecture
+## 👤 User Profile
+
+* Profile Overview
+* User Information
+* Dashboard Statistics
+* Personalized Experience
+
+---
+
+## ⚙️ Settings Module
+
+* Profile Settings
+* Terms & Conditions
+* Privacy Policy
+
+---
+
+## 📱 Responsive Experience
+
+Optimized for:
+
+* Desktop
+* Tablet
+* Mobile Devices
+
+Includes:
+
+* Mobile Sidebar
+* Mobile Search
+* Responsive Dashboard
+* Responsive Authentication Pages
+
+---
+
+# 🏗 System Architecture
 
 ```text
-Frontend (React)
-       ↓
-REST APIs
-       ↓
-Express.js
-       ↓
-Service Layer
-       ↓
-MongoDB Atlas
-```
-
-### Backend Structure
-
-```text
-Routes
- ↓
-Controllers
- ↓
-Services
- ↓
-Models
- ↓
-MongoDB
+Next.js Frontend
+        │
+        ▼
+ REST APIs
+        │
+        ▼
+ Express.js Backend
+        │
+        ▼
+ Service Layer
+        │
+        ▼
+ MongoDB Atlas
 ```
 
 ---
 
-## 🛠 Tech Stack
+# 📂 Project Structure
 
-### Frontend
+```text
+LinkNest
+│
+├── frontend
+│   ├── src
+│   │   ├── app
+│   │   ├── components
+│   │   ├── services
+│   │   ├── context
+│   │   └── assets
+│
+├── backend
+│   ├── src
+│   │   ├── config
+│   │   ├── controllers
+│   │   ├── middleware
+│   │   ├── models
+│   │   ├── routes
+│   │   ├── services
+│   │   └── validations
+│
+└── README.md
+```
 
-* React
-* Vite
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+
+* Next.js 15
+* React.js
 * Tailwind CSS
+* Framer Motion
 * Axios
-* React Router DOM
+* Lucide React
 
-### Backend
+---
+
+## Backend
 
 * Node.js
 * Express.js
+* REST APIs
 
-### Database
+---
+
+## Database
 
 * MongoDB Atlas
 * Mongoose
 
-### Authentication
+---
+
+## Authentication
 
 * JWT
 * bcryptjs
 
-### Tools
+---
 
-* Postman
+## Development Tools
+
 * Git
 * GitHub
+* Postman
+* MongoDB Compass
+* VS Code
 
 ---
 
-## 🔒 Security
+# 🔒 Security
 
-### Password Security
+## Password Security
 
-Passwords are hashed using bcryptjs before being stored.
+Passwords are hashed using bcrypt before storage.
 
-### Authentication
+## Authentication
 
-JWT-based authentication secures protected routes.
+JWT-based authentication protects private routes and APIs.
 
-### Authorization
+## Authorization
 
 Ownership-based access control ensures users can only access their own resources.
 
 ---
 
-## 📚 API Modules
+# 📚 API Modules
 
-### Auth
+## Authentication
 
 ```http
-POST   /api/auth/register
-POST   /api/auth/login
-POST   /api/auth/logout
-GET    /api/auth/me
+POST /api/auth/register
+POST /api/auth/login
+POST /api/auth/logout
+GET  /api/auth/me
 ```
 
-### Collections
+## Collections
 
 ```http
 POST   /api/collections
@@ -211,13 +309,15 @@ PATCH  /api/collections/:id
 DELETE /api/collections/:id
 ```
 
-### Links
+## Links
 
 ```http
 POST   /api/links
 GET    /api/links
 GET    /api/links/:id
+
 GET    /api/links/collection/:collectionId
+
 PATCH  /api/links/:id
 DELETE /api/links/:id
 
@@ -230,7 +330,7 @@ GET    /api/links/archived
 GET    /api/links/search
 ```
 
-### Dashboard
+## Dashboard
 
 ```http
 GET /api/dashboard/stats
@@ -238,53 +338,65 @@ GET /api/dashboard/stats
 
 ---
 
-## ⚔️ Why LinkNest Over Browser Bookmarks?
+# ⚔️ Why LinkNest?
 
-| Capability          | Browser Bookmarks | LinkNest |
+| Feature             | Browser Bookmarks | LinkNest |
 | ------------------- | ----------------- | -------- |
 | Collections         | ✅                 | ✅        |
 | Favorites           | ❌                 | ✅        |
-| Archive             | ❌                 | ✅        |
-| Dashboard Analytics | ❌                 | ✅        |
-| Advanced Search     | Limited           | ✅        |
+| Archive System      | ❌                 | ✅        |
+| Search              | Limited           | ✅        |
 | Tags                | ❌                 | ✅        |
+| Dashboard Analytics | ❌                 | ✅        |
 | Authentication      | ❌                 | ✅        |
 | User-Specific Data  | ❌                 | ✅        |
 | Resource Management | ❌                 | ✅        |
 
 ---
 
-## 🚀 Future Enhancements
+# 🚀 Future Enhancements
 
+* AI Resource Summarization
 * Browser Extension
-* AI-Powered Categorization
+* Public Collection Sharing
 * Smart Recommendations
-* Activity Tracking
+* Resource Metadata Preview
+* Drag & Drop Collections
 * Team Collaboration
-* Link Metadata Preview
-* Cross-Device Preference Sync
+* Knowledge Graph Visualization
+* Activity Tracking
 
 ---
 
-## 🎯 Key Learnings
+# 🎯 Key Learnings
 
-This project helped me gain practical experience with:
+This project provided hands-on experience with:
 
-* REST API Design
+* Full-Stack MERN Development
+* Next.js Application Architecture
 * JWT Authentication
-* Authorization
-* MongoDB Relationships
+* REST API Design
+* MongoDB Data Modeling
 * Mongoose Populate
 * Service Layer Architecture
-* Search using Regex
+* Search Implementation using Regex
+* Protected Routes
 * Dashboard Analytics
-* Cascade Deletion
-* Production-Oriented Backend Design
+* Responsive UI Development
+* Production Deployment Workflow
 
 ---
 
-## 👨‍💻 Author
+# 👩‍💻 Author
 
-**Vanshika**
+### Vanshika
 
-Built as a full-stack MERN project focused on scalable architecture, secure authentication, and efficient resource management.
+Full Stack MERN Developer
+
+Focused on building scalable web applications, modern user experiences, and production-ready backend systems.
+
+---
+
+# ⭐ Support
+
+If you found this project useful, consider giving it a star.

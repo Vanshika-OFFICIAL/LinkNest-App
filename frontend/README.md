@@ -1,36 +1,299 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🚀 LinkNest Frontend
 
-## Getting Started
+> Modern Next.js frontend for LinkNest — a personal knowledge management platform designed to organize, discover, and manage digital resources efficiently.
 
-First, run the development server:
+![Status](https://img.shields.io/badge/Status-Active-success)
+![Next.js](https://img.shields.io/badge/Next.js-15-black)
+![React](https://img.shields.io/badge/React-19-blue)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-38BDF8)
+
+---
+
+## 📖 Overview
+
+The LinkNest Frontend provides a premium user experience for managing bookmarks, documentation, tutorials, courses, and online resources.
+
+Built using **Next.js 15**, **React**, **Tailwind CSS**, and **Framer Motion**, it delivers a modern, responsive, and performant interface across all devices.
+
+---
+
+## ✨ Frontend Features
+
+### 🏠 Landing Page
+
+- Premium Hero Section
+- Feature Showcase
+- About Section
+- CTA Section
+- Responsive Navigation
+- Glassmorphism UI
+- Gradient Effects
+
+---
+
+### 🔐 Authentication
+
+#### Login
+
+- Secure Login Form
+- JWT Integration
+- Validation
+- Error Handling
+
+#### Registration
+
+- Account Creation
+- User Validation
+- Authentication Flow
+
+#### Authentication Banner
+
+- Product Showcase
+- Dashboard Preview
+- Feature Highlights
+
+---
+
+### 📊 Dashboard
+
+#### Overview
+
+- Total Links
+- Collections
+- Favorites
+- Archived Resources
+
+#### Collections
+
+- Create Collections
+- Update Collections
+- Delete Collections
+
+#### Links
+
+- Add Resources
+- Edit Resources
+- Delete Resources
+
+#### Favorites
+
+- Quick Resource Access
+
+#### Archive
+
+- Archive Resources
+
+#### Profile
+
+- User Information
+- Dashboard Summary
+
+#### Settings
+
+- Privacy Policy
+- Terms & Conditions
+
+---
+
+### 🔍 Search Experience
+
+- Real-Time Search
+- Search Suggestions
+- Title Search
+- Description Search
+- Tag Search
+- Collection Search
+
+---
+
+### 📱 Responsive Design
+
+Optimized for:
+
+- Mobile Devices
+- Tablets
+- Laptops
+- Large Screens
+
+Includes:
+
+- Mobile Navbar
+- Sidebar Navigation
+- Mobile Search
+- Responsive Dashboard
+
+---
+
+## 🎨 UI Highlights
+
+- Dark Modern Theme
+- Purple Gradient Branding
+- Glassmorphism Components
+- Smooth Hover Effects
+- Animated Sections
+- Framer Motion Integration
+
+---
+
+## 🛠 Tech Stack
+
+### Framework
+
+- Next.js 15
+- React 19
+
+### Styling
+
+- Tailwind CSS
+
+### Animation
+
+- Framer Motion
+
+### Networking
+
+- Axios
+
+### Icons
+
+- Lucide React
+
+---
+
+## 📂 Folder Structure
+
+```text
+src
+│
+├── app
+│   ├── dashboard
+│   ├── login
+│   ├── register
+│   ├── profile
+│   └── page.js
+│
+├── components
+│   ├── auth
+│   ├── common
+│   └── dashboard
+│
+├── services
+│
+├── context
+│
+├── assets
+│   ├── images
+│   └── logos
+│
+└── styles
+```
+
+---
+
+## ⚙️ Environment Variables
+
+Create a `.env.local` file:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
+```
+
+---
+
+## 🚀 Installation
+
+### Clone Repository
+
+```bash
+git clone <repository-url>
+cd frontend
+```
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Start Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Application runs at:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🏗 Production Build
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+npm start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📸 Screenshots
 
-## Deploy on Vercel
+### Landing Page
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```md
+![Landing](./screenshots/landing.png)
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Dashboard
+
+```md
+![Dashboard](./screenshots/dashboard.png)
+```
+
+### Collections
+
+```md
+![Collections](./screenshots/collections.png)
+```
+
+### Search
+
+```md
+![Search](./screenshots/search.png)
+```
+
+---
+
+## 🎯 Frontend Highlights
+
+✔ Next.js App Router
+
+✔ JWT Authentication Flow
+
+✔ Responsive Dashboard Layout
+
+✔ Real-Time Search
+
+✔ Mobile Navigation
+
+✔ Framer Motion Animations
+
+✔ Glassmorphism Design
+
+✔ Production Build Ready
+
+---
+
+## 👩‍💻 Author
+
+### Vanshika 
+
+**Full Stack MERN Developer**
+
+---
+
+## 📄 License
+
+This project is intended for educational, portfolio, and demonstration purposes.
