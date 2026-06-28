@@ -2,28 +2,17 @@
 
 export default function LinkCard({
   link,
-
   showCollection = true,
 
-  showFavorite = false,
-
-  showArchived = false,
-
   onFavorite,
-
   onArchive,
-
   onDelete,
-
   onEdit,
 }) {
   return (
     <div
       className="
-      group
-
       rounded-3xl
-
       border
       border-white/10
 
@@ -43,17 +32,11 @@ export default function LinkCard({
       duration-300
       "
     >
-      {/* HEADER */}
+      {/* TOP */}
 
-      <div className="flex justify-between items-start gap-4">
-        <div className="flex-1">
-          <h3
-            className="
-            text-xl
-            font-bold
-            text-white
-            "
-          >
+      <div className="flex justify-between gap-4">
+        <div className="flex-1 min-w-0">
+          <h3 className="text-lg md:text-xl font-bold">
             {link.title}
           </h3>
 
@@ -64,11 +47,11 @@ export default function LinkCard({
             className="
             text-violet-400
             hover:text-violet-300
+
             break-all
+
             mt-2
             block
-
-            transition
             "
           >
             {link.url} ↗
@@ -80,10 +63,8 @@ export default function LinkCard({
             </p>
           )}
 
-          {/* TAGS */}
-
           {link.tags?.length > 0 && (
-            <div className="flex gap-2 flex-wrap mt-4">
+            <div className="flex flex-wrap gap-2 mt-4">
               {link.tags.map((tag) => (
                 <span
                   key={tag}
@@ -107,52 +88,6 @@ export default function LinkCard({
             </div>
           )}
         </div>
-
-        {/* STATUS */}
-
-        <div className="flex gap-2">
-          {showFavorite && (
-            <div
-              className="
-              h-10
-              w-10
-
-              rounded-xl
-
-              bg-yellow-500/10
-
-              flex
-              items-center
-              justify-center
-
-              text-yellow-400
-              "
-            >
-              ⭐
-            </div>
-          )}
-
-          {showArchived && (
-            <span
-              className="
-              px-4
-              py-2
-
-              rounded-xl
-
-              bg-orange-500/10
-              border
-              border-orange-500/20
-
-              text-orange-300
-              text-xs
-              font-medium
-              "
-            >
-              Archived
-            </span>
-          )}
-        </div>
       </div>
 
       {/* FOOTER */}
@@ -164,154 +99,161 @@ export default function LinkCard({
 
         border-t
         border-white/10
+
+        flex
+        flex-col
+        md:flex-row
+
+        justify-between
+        gap-4
         "
       >
-        <div className="flex justify-between items-center">
-          <div>
-            {showCollection && (
-              <div
-                className="
-                inline-flex
-                items-center
-                gap-2
+        {/* LEFT */}
 
-                px-3
-                py-1
+        <div>
+          {showCollection && (
+            <div
+              className="
+              inline-flex
+              items-center
+              gap-2
 
-                rounded-full
+              px-3
+              py-1
 
-                bg-violet-500/10
-                border
-                border-violet-500/20
+              rounded-full
 
-                text-violet-300
-                text-xs
-                "
-              >
-                📁{" "}
-                {link.collectionId?.name ||
-                  "No Collection"}
-              </div>
-            )}
+              bg-violet-500/10
+              border
+              border-violet-500/20
 
-            <p className="text-xs text-gray-500 mt-3">
-              {new Date(
-                link.createdAt
-              ).toLocaleDateString()}
-            </p>
-          </div>
+              text-violet-300
+              text-xs
+              "
+            >
+              📁 {link.collectionId?.name || "No Collection"}
+            </div>
+          )}
 
-          {/* ACTIONS */}
+          <p className="text-xs text-gray-500 mt-3">
+            {new Date(link.createdAt).toLocaleDateString()}
+          </p>
+        </div>
 
-          <div className="flex gap-2 flex-wrap">
-            {onEdit && (
-              <button
-                onClick={() =>
-                  onEdit(link)
-                }
-                className="
-                px-3
-                py-2
+        {/* RIGHT */}
 
-                rounded-xl
+        <div className="flex flex-wrap gap-3">
+          {onFavorite && (
+            <button
+              onClick={() => onFavorite(link._id)}
+              title={
+                link.isFavorite
+                  ? "Remove Favorite"
+                  : "Add Favorite"
+              }
+              className="
+              h-12
+              w-12
 
-                bg-blue-500/10
-                border
-                border-blue-500/20
+              rounded-xl
 
-                text-blue-300
-                text-sm
+              border
+              border-white/10
 
-                hover:bg-blue-500/20
+              flex
+              items-center
+              justify-center
 
-                transition
-                "
-              >
-                Edit
-              </button>
-            )}
+              text-xl
 
-            {onFavorite && (
-              <button
-                onClick={() =>
-                  onFavorite(link._id)
-                }
-                className="
-                px-3
-                py-2
+              hover:border-yellow-400
+              hover:bg-yellow-500/10
 
-                rounded-xl
+              transition
+              "
+            >
+              {link.isFavorite ? "⭐" : "☆"}
+            </button>
+          )}
 
-                bg-yellow-500/10
-                border
-                border-yellow-500/20
+          {onArchive && (
+            <button
+              onClick={() => onArchive(link._id)}
+              title={
+                link.isArchived
+                  ? "Restore Link"
+                  : "Archive Link"
+              }
+              className="
+              h-12
+              w-12
 
-                text-yellow-300
-                text-sm
+              rounded-xl
 
-                hover:bg-yellow-500/20
+              border
+              border-white/10
 
-                transition
-                "
-              >
-                Favorite
-              </button>
-            )}
+              flex
+              items-center
+              justify-center
 
-            {onArchive && (
-              <button
-                onClick={() =>
-                  onArchive(link._id)
-                }
-                className="
-                px-3
-                py-2
+              text-xl
 
-                rounded-xl
+              hover:border-orange-400
+              hover:bg-orange-500/10
 
-                bg-orange-500/10
-                border
-                border-orange-500/20
+              transition
+              "
+            >
+              {link.isArchived ? "📂" : "📦"}
+            </button>
+          )}
 
-                text-orange-300
-                text-sm
+          {onEdit && (
+            <button
+              onClick={() => onEdit(link)}
+              className="
+              px-5
+              py-3
 
-                hover:bg-orange-500/20
+              rounded-xl
 
-                transition
-                "
-              >
-                Archive
-              </button>
-            )}
+              bg-yellow-500
+              text-black
 
-            {onDelete && (
-              <button
-                onClick={() =>
-                  onDelete(link._id)
-                }
-                className="
-                px-3
-                py-2
+              font-medium
 
-                rounded-xl
+              hover:bg-yellow-400
 
-                bg-red-500/10
-                border
-                border-red-500/20
+              transition
+              "
+            >
+              ✏️ Edit
+            </button>
+          )}
 
-                text-red-300
-                text-sm
+          {onDelete && (
+            <button
+              onClick={() => onDelete(link._id)}
+              className="
+              px-5
+              py-3
 
-                hover:bg-red-500/20
+              rounded-xl
 
-                transition
-                "
-              >
-                Delete
-              </button>
-            )}
-          </div>
+              bg-red-600
+              text-white
+
+              font-medium
+
+              hover:bg-red-500
+
+              transition
+              "
+            >
+              🗑️
+            </button>
+          )}
         </div>
       </div>
     </div>

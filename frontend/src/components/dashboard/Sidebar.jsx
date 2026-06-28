@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import Logo from "@/assets/logos/logo.png";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { getDashboardStats } from "@/services/dashboardService";
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, closeSidebar }) {
   const pathname = usePathname();
 
   const [stats, setStats] = useState({
@@ -50,6 +52,11 @@ export default function Sidebar() {
       icon: "📦",
     },
     {
+      name: "Profile",
+      href: "/dashboard/profile",
+      icon: "👤",
+    },
+    {
       name: "Settings",
       href: "/dashboard/settings",
       icon: "⚙️",
@@ -58,30 +65,36 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="
-      w-72
-      h-screen
+      className={`
+    fixed
+    top-0
+    left-0
+    z-[70]
 
-      sticky
-      top-0
+    h-screen
+    w-64
 
-      flex
-      flex-col
-      justify-between
+    bg-[#0B0B0F]
 
-      p-6
+    border-r
+    border-white/10
 
-      bg-[#0B0B0F]
+    p-6
 
-      border-r
-      border-white/10
+    flex
+    flex-col
+    justify-between
 
-      overflow-hidden
+    transform
+    transition-transform
+    duration-300
 
-      backdrop-blur-xl
+    ${isOpen ? "translate-x-0" : "-translate-x-full"}
 
-      shadow-[0_0_40px_rgba(168,85,247,0.08)]
-    "
+    lg:translate-x-0
+    lg:sticky
+    lg:top-0
+  `}
     >
       {/* TOP */}
       <div>
@@ -89,38 +102,27 @@ export default function Sidebar() {
 
         <div className="flex items-center gap-4 mb-10">
           <div
-            className="
-            h-14
-            w-14
+  className="
+  h-16
+  w-16
 
-            rounded-3xl
-
-            bg-gradient-to-br
-            from-violet-500
-            via-purple-500
-            to-fuchsia-500
-
-            flex
-            items-center
-            justify-center
-
-            text-xl
-            font-bold
-
-            shadow-[0_0_25px_rgba(168,85,247,0.45)]
-          "
-          >
-            L
-          </div>
+  flex
+  items-center
+  justify-center
+  "
+>
+  <Image
+    src={Logo}
+    alt="LinkNest Logo"
+    width={64}
+    height={64}
+  />
+</div>
 
           <div>
-            <h1 className="text-4xl font-bold">
-              LinkNest
-            </h1>
+            <h1 className="text-3xl font-bold">LinkNest</h1>
 
-            <p className="text-gray-400 text-sm">
-              Knowledge Hub
-            </p>
+            <p className="text-gray-400 text-sm">Knowledge Hub</p>
           </div>
         </div>
 
@@ -128,14 +130,19 @@ export default function Sidebar() {
 
         <Link
           href="/dashboard/add-link"
+          onClick={() => {
+            if (window.innerWidth < 1024) {
+              closeSidebar();
+            }
+          }}
           className="
           block
 
           w-full
 
-          mb-10
+          mb-4
 
-          py-4
+          py-2
 
           rounded-3xl
 
@@ -159,15 +166,19 @@ export default function Sidebar() {
 
         {/* NAVIGATION */}
 
-        <nav className="space-y-3">
+        <nav className="space-y-1">
           {menuItems.map((item) => {
-            const active =
-              pathname === item.href;
+            const active = pathname === item.href;
 
             return (
               <Link
                 key={item.name}
                 href={item.href}
+                onClick={() => {
+                  if (window.innerWidth < 1024) {
+                    closeSidebar();
+                  }
+                }}
                 className={`
                   flex
                   items-center
@@ -206,13 +217,9 @@ export default function Sidebar() {
                   }
                 `}
               >
-                <span className="text-xl">
-                  {item.icon}
-                </span>
+                <span className="text-xl">{item.icon}</span>
 
-                <span className="font-medium text-lg">
-                  {item.name}
-                </span>
+                <span className="font-medium text-lg">{item.name}</span>
               </Link>
             );
           })}
@@ -237,19 +244,13 @@ export default function Sidebar() {
       >
         <div className="flex justify-between">
           <div>
-            <p className="text-sm text-gray-400">
-              Total Links
-            </p>
+            <p className="text-sm text-gray-400">Total Links</p>
 
-            <h3 className="text-3xl font-bold mt-2">
-              {stats.totalLinks}
-            </h3>
+            <h3 className="text-3xl font-bold mt-2">{stats.totalLinks}</h3>
           </div>
 
           <div>
-            <p className="text-sm text-gray-400">
-              Collections
-            </p>
+            <p className="text-sm text-gray-400">Collections</p>
 
             <h3
               className="
@@ -265,7 +266,7 @@ export default function Sidebar() {
           </div>
         </div>
 
-        <div className="mt-6">
+        <div className="mt-4">
           <div
             className="
             h-2

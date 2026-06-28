@@ -1,4 +1,5 @@
 const Link = require("../models/Link");
+const Collection = require("../models/Collection");
 //create link
 const createLink = async ({
   title,
@@ -109,8 +110,25 @@ const searchLinks = async (
   searchTerm,
   userId
 ) => {
+
+  const collections =
+    await Collection.find({
+      userId,
+      name: {
+        $regex: searchTerm,
+        $options: "i",
+      },
+    });
+
+  const collectionIds =
+    collections.map(
+      (collection) =>
+        collection._id
+    );
+
   const links = await Link.find({
     userId,
+
     $or: [
       {
         title: {
@@ -118,20 +136,42 @@ const searchLinks = async (
           $options: "i",
         },
       },
+
       {
         description: {
           $regex: searchTerm,
           $options: "i",
         },
       },
+
       {
-        tags: {
+        url: {
           $regex: searchTerm,
           $options: "i",
         },
       },
+
+      {
+        tags: {
+          $elemMatch: {
+            $regex: searchTerm,
+            $options: "i",
+          },
+        },
+      },
+
+      {
+        collectionId: {
+          $in: collectionIds,
+        },
+      },
     ],
-  });
+  })
+    .populate(
+      "collectionId",
+      "name"
+    )
+    .limit(10);
 
   return links;
 };

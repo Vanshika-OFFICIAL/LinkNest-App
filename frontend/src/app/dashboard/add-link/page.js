@@ -11,80 +11,65 @@ import { useEffect } from "react";
 export default function AddLinkPage() {
   const router = useRouter();
 
-  const [collections, setCollections] =
-    useState([]);
+  const [collections, setCollections] = useState([]);
 
-  const [formData, setFormData] =
-    useState({
-      title: "",
-      url: "",
-      description: "",
-      tags: "",
-      collectionId: "",
-    });
+  const [formData, setFormData] = useState({
+    title: "",
+    url: "",
+    description: "",
+    tags: "",
+    collectionId: "",
+  });
 
-  const [loading, setLoading] =
-    useState(false);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetchCollections();
-  }, []);
+  const fetchCollections = async () => {
+    try {
+      const res = await getCollections();
 
-  const fetchCollections =
-    async () => {
-      try {
-        const res =
-          await getCollections();
-
-        setCollections(
-          res.data.collections || []
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
+      setCollections(res.data.collections || []);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]:
-        e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit =
-    async (e) => {
-      e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      try {
-        setLoading(true);
+    try {
+      setLoading(true);
 
-        await createLink({
-          ...formData,
-          tags: formData.tags
-            .split(",")
-            .map((tag) =>
-              tag.trim()
-            )
-            .filter(Boolean),
-        });
+      await createLink({
+        ...formData,
+        tags: formData.tags
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter(Boolean),
+      });
 
-        router.push(
-          "/dashboard"
-        );
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
+      router.push("/dashboard");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchCollections();
+  }, []);
   return (
-  <div className="max-w-6xl mx-auto space-y-8">
-    {/* HERO */}
+    <div className="max-w-6xl mx-auto space-y-8">
+      {/* HERO */}
 
-    <div
-      className="
+      <div
+        className="
       rounded-3xl
       border
       border-white/10
@@ -94,32 +79,36 @@ export default function AddLinkPage() {
       via-violet-500/[0.04]
       to-white/[0.02]
 
-      p-8
+     p-5 md:p-8
 
-      flex
-      justify-between
-      items-center
+flex
+flex-col
+md:flex-row
+
+gap-6
+
+justify-between
+items-start
+md:items-center
     "
-    >
-      <div>
-        <p className="uppercase tracking-widest text-violet-400 text-sm mb-3">
-          Resource Management
-        </p>
+      >
+        <div>
+          <p className="uppercase tracking-widest text-violet-400 text-sm mb-3">
+            Resource Management
+          </p>
 
-        <h1 className="text-4xl font-bold mb-3">
-          Add New Link 🔗
-        </h1>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">Add New Link 🔗</h1>
 
-        <p className="text-gray-400">
-          Save resources, articles, videos and references.
-        </p>
-      </div>
+          <p className="text-gray-400">
+            Save resources, articles, videos and references.
+          </p>
+        </div>
 
-      <div
-        className="
-        h-24
-        w-24
-
+        <div
+          className="
+        h-16
+        w-16
+        md:h-24 md:w-24
         rounded-3xl
 
         bg-violet-500/10
@@ -130,44 +119,44 @@ export default function AddLinkPage() {
         items-center
         justify-center
 
-        text-5xl
+        text-3xl md:text-5xl
       "
-      >
-        🔗
+        >
+          🔗
+        </div>
       </div>
-    </div>
 
-    {/* FORM */}
+      {/* FORM */}
 
-    <form
-      onSubmit={handleSubmit}
-      className="
+      <form
+        onSubmit={handleSubmit}
+        className="
       rounded-3xl
       border
       border-white/10
 
       bg-white/[0.03]
 
-      p-8
+      p-5 md:p-8
 
       space-y-6
     "
-    >
-      {/* TITLE + URL */}
+      >
+        {/* TITLE + URL */}
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <div>
-          <label className="block mb-2 text-sm text-gray-400">
-            Link Title *
-          </label>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div>
+            <label className="block mb-2 text-sm text-gray-400">
+              Link Title *
+            </label>
 
-          <input
-            type="text"
-            name="title"
-            required
-            value={formData.title}
-            onChange={handleChange}
-            className="
+            <input
+              type="text"
+              name="title"
+              required
+              value={formData.title}
+              onChange={handleChange}
+              className="
             w-full
             p-4
             rounded-xl
@@ -179,21 +168,19 @@ export default function AddLinkPage() {
             focus:border-violet-500/40
             outline-none
           "
-          />
-        </div>
+            />
+          </div>
 
-        <div>
-          <label className="block mb-2 text-sm text-gray-400">
-            URL *
-          </label>
+          <div>
+            <label className="block mb-2 text-sm text-gray-400">URL *</label>
 
-          <input
-            type="url"
-            name="url"
-            required
-            value={formData.url}
-            onChange={handleChange}
-            className="
+            <input
+              type="url"
+              name="url"
+              required
+              value={formData.url}
+              onChange={handleChange}
+              className="
             w-full
             p-4
             rounded-xl
@@ -205,23 +192,23 @@ export default function AddLinkPage() {
             focus:border-violet-500/40
             outline-none
           "
-          />
+            />
+          </div>
         </div>
-      </div>
 
-      {/* DESCRIPTION */}
+        {/* DESCRIPTION */}
 
-      <div>
-        <label className="block mb-2 text-sm text-gray-400">
-          Description
-        </label>
+        <div>
+          <label className="block mb-2 text-sm text-gray-400">
+            Description
+          </label>
 
-        <textarea
-          rows="3"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          className="
+          <textarea
+            rows="3"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            className="
           w-full
           p-4
           rounded-xl
@@ -233,48 +220,22 @@ export default function AddLinkPage() {
           focus:border-violet-500/40
           outline-none
         "
-        />
-      </div>
-
-      {/* TAGS + COLLECTION */}
-
-      <div className="grid md:grid-cols-2 gap-6">
-        <div>
-          <label className="block mb-2 text-sm text-gray-400">
-            Tags
-          </label>
-
-          <input
-            type="text"
-            name="tags"
-            placeholder="react, frontend, interview"
-            value={formData.tags}
-            onChange={handleChange}
-            className="
-            w-full
-            p-4
-            rounded-xl
-
-            bg-black/40
-            border
-            border-white/10
-
-            focus:border-violet-500/40
-            outline-none
-          "
           />
         </div>
 
-        <div>
-          <label className="block mb-2 text-sm text-gray-400">
-            Collection (Optional)
-          </label>
+        {/* TAGS + COLLECTION */}
 
-          <select
-            name="collectionId"
-            value={formData.collectionId}
-            onChange={handleChange}
-            className="
+        <div className="grid md:grid-cols-2 gap-6">
+          <div>
+            <label className="block mb-2 text-sm text-gray-400">Tags</label>
+
+            <input
+              type="text"
+              name="tags"
+              placeholder="react, frontend, interview"
+              value={formData.tags}
+              onChange={handleChange}
+              className="
             w-full
             p-4
             rounded-xl
@@ -286,31 +247,49 @@ export default function AddLinkPage() {
             focus:border-violet-500/40
             outline-none
           "
-          >
-            <option value="">
-              No Collection
-            </option>
+            />
+          </div>
 
-            {collections.map((collection) => (
-              <option
-                key={collection._id}
-                value={collection._id}
-              >
-                {collection.name}
-              </option>
-            ))}
-          </select>
+          <div>
+            <label className="block mb-2 text-sm text-gray-400">
+              Collection (Optional)
+            </label>
+
+            <select
+              name="collectionId"
+              value={formData.collectionId}
+              onChange={handleChange}
+              className="
+            w-full
+            p-4
+            rounded-xl
+
+            bg-black/40
+            border
+            border-white/10
+
+            focus:border-violet-500/40
+            outline-none
+          "
+            >
+              <option value="">No Collection</option>
+
+              {collections.map((collection) => (
+                <option key={collection._id} value={collection._id}>
+                  {collection.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-      </div>
 
-      {/* ACTIONS */}
+        {/* ACTIONS */}
 
-      <div className="flex justify-end pt-2">
-        <button
-          disabled={loading}
-          className="
-          px-8
-          py-4
+        <div className="flex justify-stretch md:justify-end pt-2">
+          <button
+            disabled={loading}
+            className="
+          w-full md:w-auto px-8 py-4
 
           rounded-2xl
 
@@ -324,13 +303,11 @@ export default function AddLinkPage() {
 
           font-semibold
         "
-        >
-          {loading
-            ? "Saving..."
-            : "Save Link"}
-        </button>
-      </div>
-    </form>
-  </div>
- );
+          >
+            {loading ? "Saving..." : "Save Link"}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 }

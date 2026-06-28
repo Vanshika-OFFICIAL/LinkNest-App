@@ -1,123 +1,244 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getCurrentUser } from "@/services/authService";
+import { searchLinks } from "@/services/linkService";
+import { Menu, Search, X } from "lucide-react";
 
-export default function Navbar() {
-  const [user, setUser] = useState(null);
+export default function Navbar({ openSidebar }) {
+  const [showSearch, setShowSearch] = useState(false);
+
+  const [query, setQuery] = useState("");
+
+  const [results, setResults] = useState([]);
 
   useEffect(() => {
-    fetchUser();
-  }, []);
+    const fetchResults = async () => {
+      if (!query.trim()) {
+        setResults([]);
+        return;
+      }
 
-  const fetchUser = async () => {
-    try {
-      const res = await getCurrentUser();
-      setUser(res.data.user);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+      try {
+        const res = await searchLinks(query);
+
+        setResults(res.data.links || []);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const timer = setTimeout(fetchResults, 300);
+
+    return () => clearTimeout(timer);
+  }, [query]);
 
   return (
     <header
       className="
-      sticky
+      lg:hidden
+
+      fixed
       top-0
-      z-50
+      left-0
+      right-0
+
+      z-[60]
+
+      h-16
+
+      px-4
+
+      flex
+      items-center
+      justify-between
 
       border-b
       border-white/10
 
-      bg-[#050816]/80
+      bg-[#050816]/95
       backdrop-blur-xl
-
-      px-8
-      py-4
-    "
+      "
     >
-      <div className="flex items-center justify-between">
-        {/* Search */}
+      {/* LEFT */}
 
-        <div
+      <div className="flex items-center gap-3">
+        <button
+          onClick={openSidebar}
           className="
-          w-full
-          max-w-xl
+          h-10
+          w-10
 
           rounded-xl
+
           border
           border-white/10
 
+          flex
+          items-center
+          justify-center
+
           bg-white/[0.03]
 
-          px-4
-          py-3
-        "
+          hover:border-violet-500/30
+
+          transition
+          "
+        >
+          <Menu size={20} />
+        </button>
+
+        {!showSearch && (
+          <div>
+            <h1 className="font-bold text-lg">LinkNest</h1>
+
+            <p
+              className="
+              text-[10px]
+              text-violet-400
+              tracking-widest
+              "
+            >
+              KNOWLEDGE HUB
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* RIGHT */}
+
+      {!showSearch ? (
+        <button
+          onClick={() => setShowSearch(true)}
+          className="
+          h-10
+          w-10
+
+          rounded-xl
+
+          border
+          border-white/10
+
+          flex
+          items-center
+          justify-center
+
+          bg-white/[0.03]
+
+          hover:border-violet-500/30
+
+          transition
+          "
+        >
+          <Search size={18} />
+        </button>
+      ) : (
+        <div
+          className="
+          relative
+
+          flex
+          items-center
+          gap-2
+
+          flex-1
+          ml-3
+          "
         >
           <input
+            autoFocus
             type="text"
-            placeholder="Search links, collections..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search links..."
             className="
-            bg-transparent
-            outline-none
-            w-full
-            text-sm
-          "
-          />
-        </div>
+            flex-1
 
-        {/* User */}
-
-        <div className="flex items-center gap-4">
-          <button
-            className="
             h-10
-            w-10
+
+            px-4
+
             rounded-xl
 
             border
             border-white/10
 
             bg-white/[0.03]
-          "
-          >
-            🔔
-          </button>
 
-          <div className="flex items-center gap-3">
+            text-sm
+
+            outline-none
+
+            focus:border-violet-500/40
+            "
+          />
+
+          {/* RESULTS */}
+
+          {results.length > 0 && (
             <div
               className="
-              h-10
-              w-10
-
-              rounded-full
-
-              bg-gradient-to-r
-              from-violet-600
-              to-purple-500
-
-              flex
-              items-center
-              justify-center
-
-              font-semibold
-            "
+              absolute top-12 left-0 right-12
+              rounded-2xl
+              border
+              border-white/10
+              bg-[#0B0B0F]
+              backdrop-blur-xl
+              overflow-hidden
+              shadow-xl
+              z-[70] "
             >
-              {user?.name?.charAt(0)}
-            </div>
+              {results.map((link) => (
+                <a
+                  key={link._id}
+                  href={link.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="
+                    block
 
-            <div>
-              <p className="font-medium">
-                {user?.name}
-              </p>
+                    px-4
+                    py-3
 
-              <p className="text-xs text-gray-400">
-                {user?.email}
-              </p>
+                    border-b
+                    border-white/5
+
+                    hover:bg-white/[0.04]
+                    "
+                >
+                  <p className="font-medium">{link.title}</p>
+
+                  <>
+                    <p className="text-xs text-violet-400">
+                      📁 {link.collectionId?.name}
+                    </p>
+
+                    <p className="text-xs text-gray-400 truncate">{link.url}</p>
+                  </>
+                </a>
+              ))}
             </div>
-          </div>
+          )}
+
+          <button
+            onClick={() => {
+              setShowSearch(false);
+              setQuery("");
+              setResults([]);
+            }}
+            className="
+            h-10
+            w-10
+            rounded-xl
+            border
+            border-white/10 flex
+            items-center
+            justify-center
+            bg-white/[0.03] "
+          >
+            <X size={18} />
+          </button>
         </div>
-      </div>
+      )}
     </header>
   );
 }

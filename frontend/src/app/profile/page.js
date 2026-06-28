@@ -26,10 +26,6 @@ export default function AddLinkPage() {
   const [loading, setLoading] =
     useState(false);
 
-  useEffect(() => {
-    fetchCollections();
-  }, []);
-
   const fetchCollections =
     async () => {
       try {
@@ -79,8 +75,13 @@ export default function AddLinkPage() {
       }
     };
 
+ useEffect(() => {
+    fetchCollections();
+  }, []);
+
   return (
     <div className="space-y-8">
+      
       {/* HERO */}
 
       <div

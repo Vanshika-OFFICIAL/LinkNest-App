@@ -20,3 +20,11 @@ export const getArchivedLinks = () =>
 
 export const toggleFavorite = (id) =>
   api.patch(`/links/${id}/favorite`);
+export const toggleArchive = (id) =>
+  api.patch(`/links/${id}/archive`);
+
+export const searchLinks = async (query) => {
+  return api.get(`/links/search?q=${query}`);
+};
+export const getAllLinks = () =>
+  api.get("/links");

@@ -1,99 +1,99 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+import { useRouter } from "next/navigation";
 import StatsCard from "@/components/dashboard/StatsCard";
 import LinkCard from "@/components/dashboard/LinkCard";
 import CollectionCard from "@/components/dashboard/CollectionCard";
 
 import { getCurrentUser } from "@/services/authService";
-
-import {
-  getFavoriteLinks,
-  getArchivedLinks,
-} from "@/services/linkService";
-
+import { getAllLinks } from "@/services/linkService";
 import { getCollections } from "@/services/collectionService";
+import { getDashboardStats } from "@/services/dashboardService";
+
+const initialStats = {
+  totalLinks: 0,
+  favoriteLinks: 0,
+  archivedLinks: 0,
+  collections: 0,
+};
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [user, setUser] = useState(null);
-
-  const [favorites, setFavorites] =
-    useState([]);
-
-  const [archived, setArchived] =
-    useState([]);
-
-  const [collections, setCollections] =
-    useState([]);
-
-  const [recentLinks, setRecentLinks] =
-    useState([]);
-
-  const [loading, setLoading] =
-    useState(true);
+  const [stats, setStats] = useState(initialStats);
+  const [collections, setCollections] = useState([]);
+  const [recentLinks, setRecentLinks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchDashboard();
-  }, []);
+    let isMounted = true;
 
-  const fetchDashboard = async () => {
-    try {
-      const [
-        userRes,
-        favoritesRes,
-        archivedRes,
-        collectionsRes,
-      ] = await Promise.all([
-        getCurrentUser(),
-        getFavoriteLinks(),
-        getArchivedLinks(),
-        getCollections(),
-      ]);
+    const fetchDashboard = async () => {
+      try {
+        const [userRes, collectionsRes, allLinksRes, statsRes] =
+          await Promise.all([
+            getCurrentUser(),
+            getCollections(),
+            getAllLinks(),
+            getDashboardStats(),
+          ]);
 
-      setUser(userRes.data.user);
+        if (!isMounted) {
+          return;
+        }
 
-      setFavorites(
-        favoritesRes.data.links || []
-      );
+        const fetchedCollections =
+          collectionsRes?.data?.collections || [];
+        const fetchedLinks = allLinksRes?.data?.links || [];
+        const fetchedStats = statsRes?.data?.stats || initialStats;
 
-      setArchived(
-        archivedRes.data.links || []
-      );
-
-      setCollections(
-        collectionsRes.data.collections || []
-      );
-
-      const latestLinks = [];
-
-      collectionsRes.data.collections
-        ?.slice(0, 4)
-        ?.forEach((collection) => {
-          latestLinks.push({
-            _id: collection._id,
-            title: collection.name,
-            url: "Collection Resource",
-            tags: ["collection"],
-            createdAt:
-              collection.createdAt,
-          });
+        setUser(userRes?.data?.user || null);
+        setCollections(fetchedCollections);
+        setStats({
+          totalLinks: Number(fetchedStats.totalLinks) || 0,
+          favoriteLinks: Number(fetchedStats.favoriteLinks) || 0,
+          archivedLinks: Number(fetchedStats.archivedLinks) || 0,
+          collections: Number(fetchedStats.collections) || 0,
         });
+        setRecentLinks(
+          [...fetchedLinks]
+            .sort(
+              (firstLink, secondLink) =>
+                new Date(secondLink.createdAt || 0) -
+                new Date(firstLink.createdAt || 0)
+            )
+            .slice(0, 5)
+        );
+      } catch (error) {
+        console.error("Failed to load dashboard data", error);
 
-      setRecentLinks(latestLinks);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+        if (!isMounted) {
+          return;
+        }
+
+        setUser(null);
+        setStats(initialStats);
+        setCollections([]);
+        setRecentLinks([]);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchDashboard();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-[80vh]">
-        <p className="text-gray-400">
-          Loading Dashboard...
-        </p>
+        <p className="text-gray-400">Loading Dashboard...</p>
       </div>
     );
   }
@@ -116,51 +116,60 @@ export default function DashboardPage() {
 
         backdrop-blur-xl
 
-        p-10
+        p-6 md:p-10
 
         flex
         items-center
         justify-between
       "
       >
-        <div>
+<div>
           <p
             className="
             uppercase
-            tracking-widest
-
+            tracking-[0.2em]
             text-violet-400
             text-sm
-            mb-3
+            mb-4
           "
           >
-            Knowledge Hub
+            WELCOME BACK
           </p>
 
           <h1
             className="
-            text-5xl
+            text-2xl sm:text-3xl md:text-4xl lg:text-5xl
             font-bold
             mb-4
           "
           >
-            Welcome{" "}
-            {user?.name || "User"} 👋
+            Hello {user?.name} 👋
           </h1>
 
-          <p className="text-gray-400">
-            Organize, favorite and archive
-            your learning resources in one
-            place.
+          <p
+            className="
+            text-gray-400
+            max-w-xl
+          "
+          >
+            Organize, save and access your favorite resources in one place.
           </p>
         </div>
 
         <div
           className="
-          h-32
-          w-32
+          h-20
+w-20
 
-          rounded-3xl
+md:h-24
+md:w-24
+
+lg:h-32
+lg:w-32
+
+text-4xl
+md:text-5xl
+lg:text-6xl
 
           bg-gradient-to-br
           from-violet-500/20
@@ -173,7 +182,7 @@ export default function DashboardPage() {
           items-center
           justify-center
 
-          text-6xl
+          text-2xl
         "
         >
           🚀
@@ -182,33 +191,14 @@ export default function DashboardPage() {
 
       {/* STATS */}
 
-      <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
-        <StatsCard
-          title="Collections"
-          value={collections.length}
-          icon="📁"
-        />
+      <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+        <StatsCard title="Collections" value={stats.collections} icon="📁"  clickable onClick={() => router.push("/dashboard/collections")}  />
 
-        <StatsCard
-          title="Favorites"
-          value={favorites.length}
-          icon="⭐"
-        />
+        <StatsCard title="Favorites" value={stats.favoriteLinks} icon="⭐" clickable onClick={() => router.push("/dashboard/favorites")} />
 
-        <StatsCard
-          title="Archived"
-          value={archived.length}
-          icon="📦"
-        />
+        <StatsCard title="Archived" value={stats.archivedLinks} icon="📦" clickable onClick={() => router.push("/dashboard/archived")} />
 
-        <StatsCard
-          title="Resources"
-          value={
-            favorites.length +
-            archived.length
-          }
-          icon="🔗"
-        />
+        <StatsCard title="Resources" value={stats.totalLinks} icon="🔗" clickable onClick={() => router.push("/dashboard")} />
       </div>
 
       {/* CONTENT */}
@@ -221,13 +211,9 @@ export default function DashboardPage() {
 
           <div>
             <div className="flex justify-between items-center mb-5">
-              <h2 className="text-3xl font-bold">
-                Recent Resources
-              </h2>
+              <h2 className="text-2xl md:text-3xl font-bold">Recent Resources</h2>
 
-              <span className="text-gray-400">
-                {recentLinks.length}
-              </span>
+              <span className="text-gray-400">{recentLinks.length}</span>
             </div>
 
             <div className="space-y-4">
@@ -246,10 +232,7 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 recentLinks.map((link) => (
-                  <LinkCard
-                    key={link._id}
-                    link={link}
-                  />
+                  <LinkCard key={link._id} link={link} />
                 ))
               )}
             </div>
@@ -259,26 +242,15 @@ export default function DashboardPage() {
 
           <div>
             <div className="flex justify-between items-center mb-5">
-              <h2 className="text-3xl font-bold">
-                Collections
-              </h2>
+              <h2 className="text-2xl md:text-3xl font-bold">Collections</h2>
 
-              <span className="text-gray-400">
-                {collections.length}
-              </span>
+              <span className="text-gray-400">{stats.collections}</span>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-5">
-              {collections
-                .slice(0, 4)
-                .map((collection) => (
-                  <CollectionCard
-                    key={collection._id}
-                    collection={
-                      collection
-                    }
-                  />
-                ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {collections.slice(0, 4).map((collection) => (
+                <CollectionCard key={collection._id} collection={collection} />
+              ))}
             </div>
           </div>
         </div>
@@ -300,18 +272,12 @@ export default function DashboardPage() {
             p-6
           "
           >
-            <h3 className="text-xl font-semibold mb-4">
-              Profile
-            </h3>
+            <h3 className="text-xl font-semibold mb-4">Profile</h3>
 
             <div className="space-y-3">
-              <p className="text-gray-300">
-                {user?.name}
-              </p>
+              <p className="text-gray-300">{user?.name}</p>
 
-              <p className="text-gray-500 text-sm">
-                {user?.email}
-              </p>
+              <p className="text-gray-500 text-sm">{user?.email}</p>
             </div>
           </div>
 
@@ -329,30 +295,26 @@ export default function DashboardPage() {
             p-6
           "
           >
-            <h3 className="text-xl font-semibold mb-5">
-              Activity
-            </h3>
+            <h3 className="text-xl font-semibold mb-5">Activity</h3>
 
             <div className="space-y-4">
               <div>
                 ⭐ Favorites:
                 <span className="ml-2 text-violet-400">
-                  {favorites.length}
+                  {stats.favoriteLinks}
                 </span>
               </div>
 
               <div>
                 📦 Archived:
                 <span className="ml-2 text-violet-400">
-                  {archived.length}
+                  {stats.archivedLinks}
                 </span>
               </div>
 
               <div>
                 📁 Collections:
-                <span className="ml-2 text-violet-400">
-                  {collections.length}
-                </span>
+                <span className="ml-2 text-violet-400">{stats.collections}</span>
               </div>
             </div>
           </div>
@@ -371,15 +333,11 @@ export default function DashboardPage() {
             p-6
           "
           >
-            <h3 className="font-semibold mb-3">
-              Productivity Tip
-            </h3>
+            <h3 className="font-semibold mb-3">Productivity Tip</h3>
 
             <p className="text-sm text-gray-400">
-              Organize links into topic
-              specific collections to
-              improve retrieval speed and
-              reduce information overload.
+              Organize links into topic specific collections to improve
+              retrieval speed and reduce information overload.
             </p>
           </div>
         </div>

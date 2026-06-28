@@ -9,6 +9,8 @@ import {
   getLinksByCollection,
   deleteLink,
   updateLink,
+  toggleFavorite,
+  toggleArchive,
 } from "@/services/linkService";
 
 export default function CollectionDetails() {
@@ -29,13 +31,9 @@ export default function CollectionDetails() {
     try {
       const res = await getCollectionById(id);
 
-      setCollection(
-        res.data.collection.collection
-      );
+      setCollection(res.data.collection.collection);
 
-      setTotalLinks(
-        res.data.collection.totalLinks
-      );
+      setTotalLinks(res.data.collection.totalLinks);
     } catch (error) {
       console.error(error);
     }
@@ -51,12 +49,16 @@ export default function CollectionDetails() {
     }
   };
 
-  useEffect(() => {
-    if (id) {
-      fetchCollection();
-      fetchLinks();
-    }
-  }, [id]);
+useEffect(() => {
+  if (!id) return;
+
+  const loadData = async () => {
+    await fetchCollection();
+    await fetchLinks();
+  };
+
+  loadData();
+}, [id]);
 
   const handleAddLink = async (e) => {
     e.preventDefault();
@@ -114,74 +116,106 @@ export default function CollectionDetails() {
   };
 
   if (!collection) {
-    return (
-      <div className="p-8">
-        Loading...
-      </div>
-    );
+    return <div className="p-5 md:p-8">Loading...</div>;
   }
+const handleFavorite = async (linkId) => {
+  try {
+    await toggleFavorite(linkId);
 
+    setLinks((prev) =>
+      prev.map((link) =>
+        link._id === linkId
+          ? {
+              ...link,
+              isFavorite: !link.isFavorite,
+            }
+          : link
+      )
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const handleArchive = async (linkId) => {
+  try {
+    await toggleArchive(linkId);
+
+    setLinks((prev) =>
+      prev.map((link) =>
+        link._id === linkId
+          ? {
+              ...link,
+              isArchived: !link.isArchived,
+            }
+          : link
+      )
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};
   return (
     <div className="space-y-8">
       {/* HEADER */}
-      <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8">
-        <div className="flex flex-col md:flex-row justify-between gap-6">
-          <div>
-            <p className="text-violet-400 text-sm mb-2">
-              COLLECTION
-            </p>
+      <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 md:p-8">
+  <div className="flex items-start justify-between gap-4">
+    
+    <div className="flex-1">
+      <p className="text-violet-400 text-sm uppercase tracking-widest mb-2">
+        COLLECTION
+      </p>
 
-            <h1 className="text-4xl font-bold">
-              📁 {collection.name}
-            </h1>
+      <h1 className="text-2xl md:text-4xl font-bold">
+        📁 {collection.name}
+      </h1>
 
-            <p className="text-gray-400 mt-3">
-              Organize and manage all your
-              important resources.
-            </p>
-          </div>
+      <p className="text-gray-500 mt-2">
+        Keep related resources organized in one place.
+      </p>
+    </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="rounded-2xl bg-violet-600/20 p-5 border border-violet-500/20">
-              <p className="text-gray-400 text-sm">
-                Total Links
-              </p>
+    <div
+      className="
+      h-24
+      w-24
 
-              <p className="text-3xl font-bold mt-1">
-                {totalLinks}
-              </p>
-            </div>
+      rounded-3xl
 
-            <div className="rounded-2xl bg-blue-600/20 p-5 border border-blue-500/20">
-              <p className="text-gray-400 text-sm">
-                Collection
-              </p>
+      bg-violet-600/20
+      border
+      border-violet-500/20
 
-              <p className="text-lg font-semibold mt-1">
-                Active
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      flex
+      flex-col
+      justify-center
+
+      px-4
+      shrink-0
+      "
+    >
+      <p className="text-xs text-gray-400">
+        Total Links
+      </p>
+
+      <p className="text-3xl font-bold">
+        {totalLinks}
+      </p>
+    </div>
+
+  </div>
+</div>
 
       {/* ADD LINK */}
-      <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8">
-        <h2 className="text-2xl font-bold mb-6">
-          Add New Link
-        </h2>
+      <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 md:p-8">
+        <h2 className="text-xl md:text-2xl font-bold mb-6">Add New Link</h2>
 
-        <form
-          onSubmit={handleAddLink}
-          className="space-y-4"
-        >
+        <form onSubmit={handleAddLink} className="space-y-4">
           <input
             type="text"
             placeholder="Enter title..."
             value={title}
-            onChange={(e) =>
-              setTitle(e.target.value)
-            }
+            onChange={(e) => setTitle(e.target.value)}
             className="w-full rounded-xl border border-white/10 bg-black/20 p-4 outline-none focus:border-violet-500"
           />
 
@@ -189,15 +223,13 @@ export default function CollectionDetails() {
             type="url"
             placeholder="https://example.com"
             value={url}
-            onChange={(e) =>
-              setUrl(e.target.value)
-            }
+            onChange={(e) => setUrl(e.target.value)}
             className="w-full rounded-xl border border-white/10 bg-black/20 p-4 outline-none focus:border-violet-500"
           />
 
           <button
             type="submit"
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-purple-500 font-semibold hover:scale-105 transition"
+            className=" w-full md:w-auto px-6 py-3 rounded-xl  bg-gradient-to-r from-violet-600 to-purple-500 font-semibold"
           >
             Add Link
           </button>
@@ -206,18 +238,14 @@ export default function CollectionDetails() {
 
       {/* LINKS */}
       <div>
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold">
-            Links
-          </h2>
+        <div className="flex flex-col md:flex-row gap-3 justify-between md:items-center mb-6">
+          <h2 className="text-2xl md:text-3xl  font-bold">Links</h2>
 
-          <span className="text-gray-400">
-            {links.length} items
-          </span>
+          <span className="text-gray-400">{links.length} items</span>
         </div>
 
         {links.length === 0 ? (
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-10 text-center">
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-8 md:p-10 text-center">
             No links found.
           </div>
         ) : (
@@ -231,21 +259,13 @@ export default function CollectionDetails() {
                   <>
                     <input
                       value={editTitle}
-                      onChange={(e) =>
-                        setEditTitle(
-                          e.target.value
-                        )
-                      }
+                      onChange={(e) => setEditTitle(e.target.value)}
                       className="w-full rounded-xl border border-white/10 bg-black/20 p-3 mb-3"
                     />
 
                     <input
                       value={editUrl}
-                      onChange={(e) =>
-                        setEditUrl(
-                          e.target.value
-                        )
-                      }
+                      onChange={(e) => setEditUrl(e.target.value)}
                       className="w-full rounded-xl border border-white/10 bg-black/20 p-3 mb-4"
                     />
 
@@ -258,9 +278,7 @@ export default function CollectionDetails() {
                       </button>
 
                       <button
-                        onClick={() =>
-                          setEditingId(null)
-                        }
+                        onClick={() => setEditingId(null)}
                         className="px-4 py-2 rounded-xl bg-gray-600"
                       >
                         Cancel
@@ -269,11 +287,9 @@ export default function CollectionDetails() {
                   </>
                 ) : (
                   <>
-                    <div className="flex justify-between items-start gap-4">
+                   <div className="flex flex-col md:flex-row justify-between gap-4">
                       <div>
-                        <h3 className="text-xl font-semibold">
-                          {link.title}
-                        </h3>
+                        <h3 className="text-xl font-semibold">{link.title}</h3>
 
                         <a
                           href={link.url}
@@ -285,27 +301,85 @@ export default function CollectionDetails() {
                         </a>
                       </div>
 
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() =>
-                            startEdit(link)
-                          }
-                          className="px-4 py-2 rounded-xl bg-yellow-500 text-black font-medium"
-                        >
-                          Edit
-                        </button>
+                      <div className="flex flex-wrap items-center gap-2 mt-4">
+  <button
+  onClick={() => handleFavorite(link._id)}
+  className="
+  h-11
+  w-11
 
-                        <button
-                          onClick={() =>
-                            handleDelete(
-                              link._id
-                            )
-                          }
-                          className="px-4 py-2 rounded-xl bg-red-600 font-medium"
-                        >
-                          Delete
-                        </button>
-                      </div>
+  rounded-xl
+
+  border
+  border-white/10
+
+  bg-white/[0.03]
+
+  hover:border-yellow-500/40
+
+  flex
+  items-center
+  justify-center
+
+  text-lg
+  "
+>
+  {link.isFavorite ? "⭐" : "☆"}
+</button>
+<button
+  onClick={() => handleArchive(link._id)}
+  className="
+  h-11
+  w-11
+
+  rounded-xl
+
+  border
+  border-white/10
+
+  bg-white/[0.03]
+
+  hover:border-orange-500/40
+
+  flex
+  items-center
+  justify-center
+
+  text-lg
+  "
+>
+  {link.isArchived ? "📂" : "📦"}
+</button>
+<button
+    onClick={() => startEdit(link)}
+    className="
+      px-4
+      py-2
+      rounded-lg
+      bg-yellow-500
+      text-black
+      font-medium
+      text-sm
+    "
+  >
+     ✏️ Edit
+  </button>
+
+  <button
+    onClick={() => handleDelete(link._id)}
+    className="
+      px-4
+      py-2
+      rounded-lg
+      bg-red-600
+      text-white
+      font-medium
+      text-sm
+    "
+  >
+    Delete
+  </button>
+</div>
                     </div>
                   </>
                 )}

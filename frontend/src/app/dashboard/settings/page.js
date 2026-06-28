@@ -1,191 +1,411 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Link from "next/link";
 
-import {
-  getCurrentUser as getMe,
-  updateProfile,
-} from "@/services/authService";
+import { logoutUser } from "@/services/authService";
 
 export default function SettingsPage() {
-  const [user, setUser] =
-    useState(null);
-
-  const [name, setName] =
-    useState("");
-
-  const [email, setEmail] =
-    useState("");
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const [saving, setSaving] =
+  const [showLogoutModal, setShowLogoutModal] =
     useState(false);
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
-  const fetchUser = async () => {
+const [openFaq, setOpenFaq] = useState(null);//faq
+  const handleLogout = async () => {
     try {
-      const res = await getMe();
+      await logoutUser();
 
-      setUser(res.data.user);
+      localStorage.removeItem("token");
 
-      setName(res.data.user.name);
-      setEmail(res.data.user.email);
+      window.location.href = "/login";
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
     }
   };
-
-  const handleSave =
-    async () => {
-      try {
-        setSaving(true);
-
-        const res =
-          await updateProfile({
-            name,
-            email,
-          });
-
-        setUser(res.data.user);
-
-        alert(
-          "Profile updated successfully"
-        );
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setSaving(false);
-      }
-    };
-
-  if (loading) {
-    return (
-      <div className="p-10">
-        Loading...
-      </div>
-    );
+const faqs = [
+  {
+    question: "How do collections work?",
+    answer:
+      "Collections help organize resources into categories such as Frontend, Backend, DSA and Interview Prep."
+  },
+  {
+    question: "Can I archive links?",
+    answer:
+      "Yes. Archived links are moved to the Archive section and can be restored anytime."
+  },
+  {
+    question: "Can I restore archived links?",
+    answer:
+      "Yes. Open the Archive page and click Unarchive."
+  },
+  {
+    question: "Can I edit saved links?",
+    answer:
+      "Yes. Open the resource card and use the Edit option."
+  },
+  {
+    question: "Is my data secure?",
+    answer:
+      "Your resources are protected using account authentication."
   }
-
+];
   return (
     <div className="space-y-8">
-      {/* Hero */}
+      {/* HERO */}
 
-      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-10">
+      <div
+        className="
+        rounded-3xl
+        border
+        border-white/10
+
+        bg-gradient-to-r
+        from-white/[0.04]
+        via-violet-500/[0.04]
+        to-white/[0.02]
+
+        p-5
+        md:p-8
+        "
+      >
         <p className="uppercase tracking-widest text-violet-400 text-sm">
           Account Settings
         </p>
 
-        <h1 className="text-5xl font-bold mt-3">
+        <h1 className="text-3xl md:text-5xl font-bold mt-3">
           Settings ⚙️
         </h1>
 
         <p className="text-gray-400 mt-3">
-          Manage your account and
-          preferences.
+          Manage application preferences and support options.
         </p>
       </div>
 
-      {/* Stats */}
+      {/* APPEARANCE */}
 
-      <div className="grid md:grid-cols-3 gap-6">
-        <div className="rounded-2xl border border-white/10 p-6">
-          <p className="text-gray-400">
-            Account Status
-          </p>
-
-          <h2 className="text-3xl font-bold text-green-400 mt-2">
-            Active
-          </h2>
-        </div>
-
-        <div className="rounded-2xl border border-white/10 p-6">
-          <p className="text-gray-400">
-            Collections
-          </p>
-
-          <h2 className="text-3xl font-bold mt-2">
-            {
-              user?.collectionsCount
-            }
-          </h2>
-        </div>
-
-        <div className="rounded-2xl border border-white/10 p-6">
-          <p className="text-gray-400">
-            Favorites
-          </p>
-
-          <h2 className="text-3xl font-bold mt-2">
-            {
-              user?.favoritesCount
-            }
-          </h2>
-        </div>
-      </div>
-
-      {/* Form */}
-
-      <div className="rounded-3xl border border-white/10 p-8">
-        <h2 className="text-2xl font-bold mb-6">
-          Profile Information
+      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+        <h2 className="text-xl font-semibold mb-4">
+          Appearance
         </h2>
 
-        <div className="space-y-5">
+        <div
+          className="
+          flex
+          items-center
+          justify-between
+
+          rounded-2xl
+          border
+          border-white/10
+
+          p-4
+          "
+        >
           <div>
-            <label>
-              Full Name
-            </label>
+            <p className="font-medium">
+              Theme
+            </p>
 
-            <input
-              value={name}
-              onChange={(e) =>
-                setName(
-                  e.target.value
-                )
-              }
-              className="w-full mt-2 border border-white/10 rounded-xl p-3 bg-black/20"
-            />
-          </div>
-
-          <div>
-            <label>Email</label>
-
-            <input
-              value={email}
-              onChange={(e) =>
-                setEmail(
-                  e.target.value
-                )
-              }
-              className="w-full mt-2 border border-white/10 rounded-xl p-3 bg-black/20"
-            />
+            <p className="text-sm text-gray-400">
+              Dark / Light mode
+            </p>
           </div>
 
           <button
-            onClick={handleSave}
-            disabled={saving}
+            disabled
             className="
-              px-6
-              py-3
-              rounded-xl
-              bg-gradient-to-r
-              from-violet-600
-              to-purple-500
+            px-4
+            py-2
+
+            rounded-xl
+
+            bg-violet-600/40
+
+            cursor-not-allowed
             "
           >
-            {saving
-              ? "Saving..."
-              : "Save Changes"}
+            Coming Soon
           </button>
         </div>
       </div>
+
+      {/* FAQ */}
+
+      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+        <h2 className="text-xl font-semibold mb-6">
+          FAQ
+        </h2>
+
+        <div className="space-y-3">
+  {faqs.map((faq, index) => (
+    <div
+      key={index}
+      className="
+      rounded-2xl
+      border
+      border-white/10
+      overflow-hidden
+      "
+    >
+      <button
+        onClick={() =>
+          setOpenFaq(
+            openFaq === index
+              ? null
+              : index
+          )
+        }
+        className="
+        w-full
+        flex
+        justify-between
+        items-center
+
+        p-4
+        text-left
+        "
+      >
+        <span>{faq.question}</span>
+
+        <span>
+          {openFaq === index ? "−" : "+"}
+        </span>
+      </button>
+
+      {openFaq === index && (
+        <div className="px-4 pb-4 text-sm text-gray-400">
+          {faq.answer}
+        </div>
+      )}
+    </div>
+  ))}
+</div>
+      </div>
+
+      {/* SUPPORT */}
+
+      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+        <h2 className="text-xl font-semibold mb-5">
+          Support
+        </h2>
+
+       <div className="grid gap-4">
+  <button
+    className="
+    flex
+    justify-between
+    items-center
+
+    rounded-2xl
+    border
+    border-white/10
+
+    p-4
+    "
+  >
+    <span>Contact Support</span>
+
+    <span className="text-violet-400">
+      →
+    </span>
+  </button>
+
+  <button
+    className="
+    flex
+    justify-between
+    items-center
+
+    rounded-2xl
+    border
+    border-white/10
+
+    p-4
+    "
+  >
+    <span>Feature Requests</span>
+
+    <span className="text-violet-400">
+      →
+    </span>
+  </button>
+</div>
+      </div>
+
+      {/* LEGAL */}
+
+      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+        <h2 className="text-xl font-semibold mb-5">
+          Legal
+        </h2>
+  <div className="grid gap-4">
+    <Link
+      href="/dashboard/settings/privacy-policy"
+      className="
+      flex
+      items-center
+      justify-between
+
+      rounded-2xl
+      border
+      border-white/10
+
+      p-4
+
+      hover:border-violet-500/40
+      hover:bg-white/[0.02]
+
+      transition
+      "
+    >
+      <span>Privacy Policy</span>
+
+      <span className="text-violet-400 text-sm">
+        ↗
+      </span>
+    </Link>
+
+    <Link
+      href="/dashboard/settings/terms"
+      className="
+      flex
+      items-center
+      justify-between
+
+      rounded-2xl
+      border
+      border-white/10
+
+      p-4
+
+      hover:border-violet-500/40
+      hover:bg-white/[0.02]
+
+      transition
+      "
+    >
+      <span>Terms & Conditions</span>
+
+      <span className="text-violet-400 text-sm">
+        ↗
+      </span>
+    </Link>
+  </div>
+</div>
+
+      {/* ACCOUNT */}
+
+      <div
+        className="
+        rounded-3xl
+
+        border
+        border-red-500/20
+
+        bg-red-500/5
+
+        p-6
+        "
+      >
+        <h2 className="text-xl font-semibold text-red-400 mb-5">
+          Account
+        </h2>
+
+        <button
+          onClick={() =>
+            setShowLogoutModal(true)
+          }
+          className="
+          px-6
+          py-3
+
+          rounded-xl
+
+          bg-red-600
+          hover:bg-red-700
+
+          font-medium
+          "
+        >
+          Logout
+        </button>
+      </div>
+
+      {/* LOGOUT MODAL */}
+
+      {showLogoutModal && (
+        <div
+          className="
+          fixed
+          inset-0
+
+          bg-black/70
+
+          flex
+          items-center
+          justify-center
+
+          z-50
+          "
+        >
+          <div
+            className="
+            w-[90%]
+            max-w-md
+
+            rounded-3xl
+
+            border
+            border-white/10
+
+            bg-[#0b1020]
+
+            p-6
+            "
+          >
+            <h3 className="text-2xl font-bold">
+              Logout?
+            </h3>
+
+            <p className="text-gray-400 mt-3">
+              Are you sure you want to logout?
+            </p>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() =>
+                  setShowLogoutModal(false)
+                }
+                className="
+                flex-1
+
+                py-3
+
+                rounded-xl
+
+                border
+                border-white/10
+                "
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={handleLogout}
+                className="
+                flex-1
+
+                py-3
+
+                rounded-xl
+
+                bg-red-600
+                "
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
