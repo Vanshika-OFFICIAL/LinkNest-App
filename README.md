@@ -1,6 +1,6 @@
 # 🚀 LinkNest
 
-> A modern full-stack MERN Knowledge Management Platform that helps users organize, discover, and manage digital resources through collections, favorites, archives, search, analytics, and secure authentication.
+>A modern full-stack Knowledge Management Platform built with Next.js, Node.js, Express.js, and MongoDB Atlas that helps users organize, discover, and manage digital resources through collections, favorites, archives, search, analytics, and secure authentication.
 
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![Frontend](https://img.shields.io/badge/Frontend-Next.js-black)
@@ -10,11 +10,11 @@
 
 ---
 
-# 🌐 Live Demo
+## 🌐 Live Demo
 
-Frontend: `https://link-nest-app.vercel.app/`
+🔗 Frontend: https://link-nest-app.vercel.app/
 
-Backend API: `Coming Soon`
+🔗 Backend API: https://linknest-app-isbp.onrender.com/api
 
 ---
 
@@ -75,7 +75,13 @@ LinkNest provides:
 * Feature Sections
 * About Section
 * Premium UI Components
+  <br/>
+<img width="1892" height="912" alt="image" src="https://github.com/user-attachments/assets/b5970dd7-ac0d-4939-ac0a-85004da4c667" />
 
+<br/>
+<img width="1882" height="910" alt="image" src="https://github.com/user-attachments/assets/afc27e03-9b49-4ff0-b6a2-7ccd4854736a" />
+
+<br/>
 ---
 
 ## 📁 Smart Collections
@@ -86,6 +92,8 @@ LinkNest provides:
 * Organize Resources
 * Collection-Based Navigation
 * Cascade Deletion Support
+  <br/>
+<img width="1887" height="911" alt="image" src="https://github.com/user-attachments/assets/95b04c5c-8807-4625-85cb-827bd994bd82" />
 
 ---
 
@@ -105,6 +113,8 @@ LinkNest provides:
 * Mark Important Resources
 * Dedicated Favorites Section
 * Quick Resource Retrieval
+  <br/>
+<img width="1880" height="911" alt="image" src="https://github.com/user-attachments/assets/0835605a-04a7-4463-a2b6-8d43480473c5" />
 
 ---
 
@@ -113,6 +123,8 @@ LinkNest provides:
 * Archive Resources
 * Restore Workflow Ready
 * Workspace Cleanup
+
+<img width="1887" height="917" alt="image" src="https://github.com/user-attachments/assets/5400365d-3607-4a83-bc37-dfea87fd7036" />
 
 ---
 
@@ -130,6 +142,8 @@ Features:
 * Real-Time Search
 * Search Suggestions
 * Global Resource Discovery
+  
+<img width="373" height="802" alt="image" src="https://github.com/user-attachments/assets/b1ef35fe-0d46-49f5-84a6-7c58dac4e8d6" />
 
 ---
 
@@ -142,6 +156,8 @@ Track:
 * Favorite Resources
 * Archived Resources
 * Recent Activity
+  <br/>
+<img width="1907" height="915" alt="image" src="https://github.com/user-attachments/assets/ca3ff830-d89e-4835-a5b8-2b8ea451da01" />
 
 ---
 
@@ -151,6 +167,8 @@ Track:
 * User Information
 * Dashboard Statistics
 * Personalized Experience
+  <br/>
+  <img width="1883" height="906" alt="image" src="https://github.com/user-attachments/assets/ece0f94d-b4ce-418c-9a20-3213a77048b8" />
 
 ---
 
@@ -159,6 +177,8 @@ Track:
 * Profile Settings
 * Terms & Conditions
 * Privacy Policy
+  <br/>
+<img width="1896" height="913" alt="image" src="https://github.com/user-attachments/assets/d679fec5-1ba1-45f0-abe7-0e77d4a312e4" />
 
 ---
 
@@ -176,6 +196,12 @@ Includes:
 * Mobile Search
 * Responsive Dashboard
 * Responsive Authentication Pages
+<br/>
+  <img width="377" height="807" alt="image" src="https://github.com/user-attachments/assets/c2527b5b-ed11-4f57-8e3f-73ecc09a02d6" />
+  
+  <img width="361" height="803" alt="image" src="https://github.com/user-attachments/assets/26dcaac6-9d63-4eb6-957e-1003d43edd94" />
+
+
 
 ---
 
@@ -271,7 +297,18 @@ LinkNest
 * VS Code
 
 ---
+# 🚀 Deployment
 
+| Service | Platform |
+|----------|----------|
+| Frontend | Vercel |
+| Backend | Render |
+| Database | MongoDB Atlas |
+
+![Frontend Hosting](https://img.shields.io/badge/Frontend-Vercel-black)
+![Backend Hosting](https://img.shields.io/badge/Backend-Render-blue)
+
+---
 # 🔒 Security
 
 ## Password Security
@@ -285,10 +322,60 @@ JWT-based authentication protects private routes and APIs.
 ## Authorization
 
 Ownership-based access control ensures users can only access their own resources.
+<br/>
+<img width="1882" height="922" alt="image" src="https://github.com/user-attachments/assets/a364f0f7-d992-4b07-93b5-9f5298245062" />
+<br/>
+<img width="1881" height="917" alt="image" src="https://github.com/user-attachments/assets/1b0c2c71-7426-424a-b8e4-0066ccf2f655" />
+
+---
+# ⚙️ Local Setup
+
+## Clone Repository
+
+```bash
+git clone https://github.com/Vanshika-OFFICIAL/LinkNest-App.git
+cd LinkNest-App
+```
+
+## Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## Backend
+
+```bash
+cd backend
+npm install
+npm run dev
+```
 
 ---
 
-# 📚 API Modules
+# 🔑 Environment Variables
+
+## Backend (.env)
+
+```env
+PORT
+MONGO_URI
+JWT_SECRET
+```
+
+## Frontend (.env.local)
+
+```env
+NEXT_PUBLIC_API_URL
+```
+
+---
+
+
+
+## 📚 API Modules
 
 ## Authentication
 
@@ -361,10 +448,11 @@ GET /api/dashboard/stats
 * Public Collection Sharing
 * Smart Recommendations
 * Resource Metadata Preview
-* Drag & Drop Collections
 * Team Collaboration
-* Knowledge Graph Visualization
 * Activity Tracking
+* Progressive Web App (PWA)
+* Android APK using Capacitor
+* Docker Containerization
 
 ---
 
@@ -372,7 +460,7 @@ GET /api/dashboard/stats
 
 This project provided hands-on experience with:
 
-* Full-Stack MERN Development
+* Full-Stack Application Development
 * Next.js Application Architecture
 * JWT Authentication
 * REST API Design
@@ -391,7 +479,7 @@ This project provided hands-on experience with:
 
 ### Vanshika
 
-Full Stack MERN Developer
+Full Stack Web Developer
 
 Focused on building scalable web applications, modern user experiences, and production-ready backend systems.
 
