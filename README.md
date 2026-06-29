@@ -12,7 +12,7 @@
 
 # 🌐 Live Demo
 
-Frontend: `Coming Soon`
+Frontend: `https://link-nest-app.vercel.app/`
 
 Backend API: `Coming Soon`
 
