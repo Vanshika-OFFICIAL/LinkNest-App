@@ -353,31 +353,31 @@ const handleArchive = async (linkId) => {
 <button
     onClick={() => startEdit(link)}
     className="
-      px-4
+      px-2
       py-2
       rounded-lg
-      bg-yellow-500
+      bg-yellow-300
       text-black
       font-medium
       text-sm
     "
   >
-     ✏️ Edit
+     ✏️
   </button>
 
   <button
     onClick={() => handleDelete(link._id)}
     className="
-      px-4
+      px-2
       py-2
       rounded-lg
-      bg-red-600
+      bg-red-500
       text-white
       font-medium
       text-sm
     "
   >
-    Delete
+    🗑️
   </button>
 </div>
                     </div>

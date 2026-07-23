@@ -32,14 +32,14 @@ export default function LoginForm() {
         password: formData.password,
       });
 
-      if (!res?.data?.token) {
-        throw new Error("Token not received");
+      if (!res?.data?.accessToken) {
+        throw new Error("Access token not received");
       }
 
       // Save token
       localStorage.setItem(
         "token",
-        res.data.token
+        res.data.accessToken
       );
 
       // Save user

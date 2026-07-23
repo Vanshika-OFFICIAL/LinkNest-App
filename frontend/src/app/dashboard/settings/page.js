@@ -10,16 +10,17 @@ export default function SettingsPage() {
     useState(false);
 const [openFaq, setOpenFaq] = useState(null);//faq
   const handleLogout = async () => {
-    try {
-      await logoutUser();
+  try {
+    await logoutUser();
 
-      localStorage.removeItem("token");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
 
-      window.location.href = "/login";
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    window.location.href = "/login";
+  } catch (error) {
+    console.error(error);
+  }
+};
 const faqs = [
   {
     question: "How do collections work?",
