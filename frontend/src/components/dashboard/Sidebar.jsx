@@ -65,25 +65,30 @@ export default function Sidebar({ isOpen, closeSidebar }) {
 
   return (
     <aside
-      className={`
+  className={`
     fixed
     top-0
     left-0
     z-[70]
 
-    h-screen
-    w-64
+    h-dvh
+    overflow-y-auto
+
+    w-[82vw]
+    max-w-[290px]
+    lg:w-64
 
     bg-[#0B0B0F]
 
     border-r
     border-white/10
 
-    p-6
+    p-4
+    sm:p-5
+    lg:p-6
 
     flex
     flex-col
-    justify-between
 
     transform
     transition-transform
@@ -95,8 +100,7 @@ export default function Sidebar({ isOpen, closeSidebar }) {
     lg:sticky
     lg:top-0
   `}
-    >
-      {/* TOP */}
+>      {/* TOP */}
       <div>
         {/* LOGO */}
 
