@@ -3,6 +3,8 @@ const generateToken = require("../utils/generateToken");
 const { loginUser,
   registerUser,
   changePassword,
+  forgotPassword,
+  resetPassword,
  } = require("../services/auth.service");
 
 const register = async (req, res) => {
@@ -121,6 +123,47 @@ const updatePassword =
       });
     }
   };
+
+  const forgotPasswordController = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const result = await forgotPassword(email);
+
+    res.status(200).json({
+      success: true,
+      message: result.message,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const resetPasswordController = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    const result = await resetPassword(
+      token,
+      password
+    );
+
+    res.status(200).json({
+      success: true,
+      message: result.message,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 //logout user (for frontend to clear token)
 const logout = async (req, res) => {
   res.status(200).json({
@@ -134,5 +177,7 @@ module.exports = {
   getMe,
   updateProfile,
   updatePassword,
+  forgotPasswordController,
+  resetPasswordController,
   logout
 };

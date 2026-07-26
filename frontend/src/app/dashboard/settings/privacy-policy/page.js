@@ -45,20 +45,20 @@ export default function PrivacyPolicyPage() {
 >
   ←
 </Link>
-        <h1 className="text-3xl md:text-5xl font-bold mt-3">
+        <h1 className="text-3xl md:text-4xl font-bold mt-2">
           Privacy Policy 🔒
         </h1>
 
-        <p className="text-gray-400 mt-3">
+        <p className="text-gray-400 mt-2">
           Learn how LinkNest collects, stores and protects your data.
         </p>
       </div>
 
       {/* CONTENT */}
 
-      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 md:p-8 space-y-8">
+      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-2 md:p-4 space-y-6">
         <section>
-          <h2 className="text-2xl font-bold mb-3">Information We Collect</h2>
+          <h2 className="text-xl font-bold mb-3">Information We Collect</h2>
 
           <p className="text-gray-400">
             LinkNest may collect your name, email address, account information,
@@ -67,7 +67,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold mb-3">
+          <h2 className="text-xl font-bold mb-3">
             How We Use Your Information
           </h2>
 
@@ -78,7 +78,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold mb-3">Data Storage</h2>
+          <h2 className="text-xl font-bold mb-3">Data Storage</h2>
 
           <p className="text-gray-400">
             Your data is securely stored in our databases and protected using
@@ -87,7 +87,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold mb-3">Third Party Services</h2>
+          <h2 className="text-xl font-bold mb-3">Third Party Services</h2>
 
           <p className="text-gray-400">
             LinkNest may use third-party services such as hosting providers,
@@ -96,7 +96,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold mb-3">Data Deletion</h2>
+          <h2 className="text-xl font-bold mb-3">Data Deletion</h2>
 
           <p className="text-gray-400">
             Users may request deletion of their account and associated data by
@@ -105,7 +105,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold mb-3">Contact</h2>
+          <h2 className="text-xl font-bold mb-3">Contact</h2>
 
           <p className="text-gray-400">
             For privacy-related concerns, contact:

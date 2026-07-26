@@ -20,7 +20,7 @@ export default function CollectionCard({ collection, onEdit, onDelete }) {
 
       backdrop-blur-xl
 
-      p-6
+      p-5 md:p-6
 
       hover:border-violet-500/40
       hover:-translate-y-1
@@ -31,38 +31,61 @@ export default function CollectionCard({ collection, onEdit, onDelete }) {
     >
       <Link href={`/dashboard/collections/${collection._id}`}>
         <div>
-          <div className="flex justify-between items-start  gap-3">
-            <div className="text-4xl md:text-5xl">📁</div>
+         <div className="flex items-center justify-between gap-3">
+  {/* Left Side */}
+  <div className="flex items-center gap-3 min-w-0 flex-1">
+    <div className="text-3xl md:text-4xl flex-shrink-0">
+      📁
+    </div>
 
-            <span
-              className="
-              text-violet-400
-              text-lg md:text-xl
+    <h3
+      className="
+        flex-1
+        min-w-0
 
-              opacity-100 md:opacity-0
-              group-hover:opacity-100
+        text-lg
+        md:text-xl
 
-              transition
-            "
-            >
-              →
-            </span>
-          </div>
+        font-bold
 
-          <h3
-            className="
-            text-lg md:text-xl break-words font-bold mt-4 group-hover:text-violet-400 transition">
-            {collection.name}
-          </h3>
+        truncate
 
-          <p className="text-gray-500 text-sm mt-3">
+        group-hover:text-violet-400
+        transition
+      "
+    >
+      {collection.name}
+    </h3>
+  </div>
+
+  {/* Arrow */}
+  <span
+    className="
+      flex-shrink-0
+
+      text-violet-400
+      text-lg
+      md:text-xl
+
+      opacity-100
+      md:opacity-0
+
+      group-hover:opacity-100
+
+      transition
+    "
+  >
+    →
+  </span>
+</div>
+          <p className="text-gray-500 text-sm 2 py-2">
             Created {new Date(collection.createdAt).toLocaleDateString()}
           </p>
 
           {collection.linksCount !== undefined && (
             <div
               className="
-              mt-4
+              mt-3
 
               inline-flex
               items-center
@@ -91,8 +114,8 @@ export default function CollectionCard({ collection, onEdit, onDelete }) {
       {(onEdit || onDelete) && (
         <div
           className="
-          mt-6
-          pt-4
+          
+          pt-3
 
           border-t
           border-white/10
@@ -107,7 +130,7 @@ export default function CollectionCard({ collection, onEdit, onDelete }) {
               className="
               flex-1
 
-              py-3 min-h-[44px]
+              py-2 min-h-[44px]
 
               rounded-xl
 

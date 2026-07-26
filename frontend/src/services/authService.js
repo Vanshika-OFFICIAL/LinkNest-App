@@ -21,3 +21,15 @@ export const changePassword =
       "/auth/change-password",
       data
     );
+
+    export const forgotPassword = (data) =>
+  api.post("/auth/forgot-password", data);
+
+export const resetPassword = (
+  token,
+  data
+) =>
+  api.post(
+    `/auth/reset-password/${token}`,
+    data
+  );

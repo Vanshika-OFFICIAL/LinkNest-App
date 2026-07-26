@@ -16,11 +16,11 @@ export default function StatsCard({
 
       bg-white/[0.04]
 
-      p-4
+      p-3.5
       sm:p-5
 
-      min-h-[110px]
-      sm:min-h-[130px]
+      min-h-[88px]
+      sm:min-h-[120px]
 
       transition-all
       duration-300
@@ -39,28 +39,21 @@ export default function StatsCard({
       }
       `}
     >
-      <div
-        className="
-        text-2xl
-        sm:text-3xl
+      <div className="flex items-center gap-2">
+  <span className="text-xl sm:text-2xl">
+    {icon}
+  </span>
 
-        mb-2
-        "
-      >
-        {icon}
-      </div>
-
-      <p
-        className="
-        text-gray-400
-
-        text-sm
-        sm:text-base
-        "
-      >
-        {title}
-      </p>
-
+  <p
+    className="
+      text-sm
+      font-medium
+      text-gray-300
+    "
+  >
+    {title}
+  </p>
+</div>
       <h2
         className="
         text-2xl

@@ -106,7 +106,7 @@ const handleFavorite = async (id) => {
   }
 };
   return (
-    <div className="space-y-10">
+    <div className="space-y-6">
       {/* HERO */}
 
       <div
@@ -120,7 +120,7 @@ const handleFavorite = async (id) => {
         via-violet-500/[0.04]
         to-white/[0.02]
 
-        p-5 md:p-10 flex flex-col md:flex-row gap-6 justify-between
+        p-5 md:p-6 flex flex-col md:flex-row gap-6 justify-between
 items-start
 md:items-center
       "
@@ -130,7 +130,7 @@ md:items-center
             Archived Resources
           </p>
 
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">
+          <h1 className="text-2xl md:text-4xl font-bold mb-4">
             Archive 📦
           </h1>
 
@@ -142,7 +142,7 @@ md:items-center
 
       {/* STATS */}
 
-      <div className="grid grid-cols-3 md:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-3 md:grid-cols-3 gap-4 md:gap-4">
         <StatsCard
           title="Archived"
           value={links.length}
@@ -171,8 +171,8 @@ md:items-center
       {/* LINKS */}
 
       <div>
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl md:text-4xl font-bold">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl md:text-2xl font-bold">
             Archived Links
           </h2>
 
@@ -199,11 +199,11 @@ md:items-center
               📦
             </div>
 
-            <h3 className="text-xl md:text-3xl font-bold">
+            <h3 className="text-xl md:text-xl font-bold">
               No Archived Links
             </h3>
 
-            <p className="text-gray-400 mt-4">
+            <p className="text-gray-400 mt-2">
               Archived resources will appear here.
             </p>
           </div>

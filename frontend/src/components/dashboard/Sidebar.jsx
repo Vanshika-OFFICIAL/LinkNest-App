@@ -64,15 +64,15 @@ export default function Sidebar({ isOpen, closeSidebar }) {
   ];
 
   return (
-    <aside
+  <aside
   className={`
     fixed
     top-0
     left-0
     z-[70]
 
-    h-dvh
-    overflow-y-auto
+    h-screen
+    overflow-hidden
 
     w-[82vw]
     max-w-[290px]
@@ -100,7 +100,7 @@ export default function Sidebar({ isOpen, closeSidebar }) {
     lg:sticky
     lg:top-0
   `}
->      {/* TOP */}
+>     {/* TOP */}
       <div>
         {/* LOGO */}
 

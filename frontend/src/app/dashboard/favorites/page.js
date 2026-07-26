@@ -109,7 +109,7 @@ const thisMonthLinks = favorites.filter((link) => {
   );
 }).length;
   return (
-    <div className="space-y-10">
+    <div className="space-y-6">
       {/* HERO */}
 
       <div
@@ -123,13 +123,13 @@ const thisMonthLinks = favorites.filter((link) => {
         via-violet-500/[0.04]
         to-white/[0.02]
 
-        p-5 md:p-10
+        p-5 md:p-8
         flex
         flex-col
         md:flex-row
 
         justify-between
-        gap-6
+        gap-4
         items-start md:items-center
         backdrop-blur-xl
       "
@@ -141,13 +141,13 @@ const thisMonthLinks = favorites.filter((link) => {
             uppercase
             tracking-widest
             text-sm
-            mb-4
+            mb-2
           "
           >
             Favorite Resources
           </p>
 
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">
             Favorites ⭐
           </h1>
 
@@ -188,8 +188,8 @@ const thisMonthLinks = favorites.filter((link) => {
       {/* LINKS */}
 
       <div>
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl md:text-4xl font-bold">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl md:text-2xl font-bold">
             Favorite Links
           </h2>
 
@@ -216,11 +216,11 @@ const thisMonthLinks = favorites.filter((link) => {
               ⭐
             </div>
 
-            <h3 className="text-xl md:text-3xl font-bold">
+            <h3 className="text-xl md:text-xl font-bold">
               No Favorites Yet
             </h3>
 
-            <p className="text-gray-400 mt-3">
+            <p className="text-gray-400 mt-2">
               Favorite links will appear here.
             </p>
           </div>

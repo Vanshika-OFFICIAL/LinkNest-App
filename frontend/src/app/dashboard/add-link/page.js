@@ -65,7 +65,7 @@ export default function AddLinkPage() {
     fetchCollections();
   }, []);
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
+    <div className="max-w-6xl mx-auto space-y-6">
       {/* HERO */}
 
       <div
@@ -79,7 +79,7 @@ export default function AddLinkPage() {
       via-violet-500/[0.04]
       to-white/[0.02]
 
-     p-5 md:p-8
+     p-5 md:p-6
 
 flex
 flex-col
@@ -93,11 +93,11 @@ md:items-center
     "
       >
         <div>
-          <p className="uppercase tracking-widest text-violet-400 text-sm mb-3">
+          <p className="uppercase tracking-widest text-violet-400 text-sm mb-2">
             Resource Management
           </p>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">Add New Link 🔗</h1>
+          <h1 className="text-3xl sm:text-3xl md:text-3xl font-bold mb-3">Add New Link 🔗</h1>
 
           <p className="text-gray-400">
             Save resources, articles, videos and references.
@@ -137,14 +137,14 @@ md:items-center
 
       bg-white/[0.03]
 
-      p-5 md:p-8
+      p-5 md:p-6
 
-      space-y-6
+      space-y-4
     "
       >
         {/* TITLE + URL */}
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label className="block mb-2 text-sm text-gray-400">
               Link Title *
@@ -199,12 +199,12 @@ md:items-center
         {/* DESCRIPTION */}
 
         <div>
-          <label className="block mb-2 text-sm text-gray-400">
+          <label className="block mb-1 text-sm text-gray-400">
             Description
           </label>
 
           <textarea
-            rows="3"
+            rows="2"
             name="description"
             value={formData.description}
             onChange={handleChange}
@@ -225,7 +225,7 @@ md:items-center
 
         {/* TAGS + COLLECTION */}
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label className="block mb-2 text-sm text-gray-400">Tags</label>
 
@@ -285,11 +285,11 @@ md:items-center
 
         {/* ACTIONS */}
 
-        <div className="flex justify-stretch md:justify-end pt-2">
+        <div className="flex justify-stretch md:justify-end pt-1">
           <button
             disabled={loading}
             className="
-          w-full md:w-auto px-8 py-4
+          w-full md:w-auto px-4 py-2
 
           rounded-2xl
 

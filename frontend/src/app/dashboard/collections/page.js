@@ -140,15 +140,15 @@ export default function CollectionsPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* HERO */}
 
-      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 md:p-8">
-        <p className="text-violet-400 text-sm uppercase tracking-widest">
+      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-4 md:p-6">
+        <p className="text-violet-200 text-sm uppercase tracking-widest">
           Collection Management
         </p>
 
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-3">
+        <h1 className="text-2xl sm:text-4xl md:text-4xl font-bold mt-3">
           Collections 📁
         </h1>
 
@@ -159,7 +159,7 @@ export default function CollectionsPage() {
 
       {/* STATS */}
 
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 md:gap-4">
         <StatsCard title="Collections" value={stats.collections} icon="📁" clickable onClick={() => router.push("/dashboard/collections")} />
 
         <StatsCard title="Resources" value={stats.totalLinks} icon="🔗" clickable onClick={() => router.push("/dashboard")} />
@@ -171,8 +171,8 @@ export default function CollectionsPage() {
 
       {/* CREATE / EDIT */}
 
-      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 md:p-8">
-        <h2 className="text-xl md:text-2xl font-bold mb-5">
+      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-4 md:p-8">
+        <h2 className="text-xl md:text-2xl font-bold mb-4">
           {editingId ? "Edit Collection" : "Create Collection"}
         </h2>
 
@@ -202,7 +202,7 @@ export default function CollectionsPage() {
             type="submit"
             disabled={saving}
             className="
-               w-full md:w-auto  px-8  py-4
+               w-full md:w-auto  px-6  py-4
               rounded-xl
               bg-gradient-to-r
               from-violet-600
@@ -217,7 +217,7 @@ export default function CollectionsPage() {
 
       {/* SEARCH */}
 
-      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-4 md:p-6">
+      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-4 md:p-4">
         <input
           type="text"
           placeholder="Search collections..."
@@ -229,8 +229,8 @@ export default function CollectionsPage() {
             border
             border-white/10
             bg-black/20
-            px-5
-            py-4
+            px-4
+            py-3
             outline-none
             focus:border-violet-500
           "
@@ -239,10 +239,10 @@ export default function CollectionsPage() {
 
       {/* HEADER */}
 
-      <div className="flex flex-col md:flex-row gap-3 justify-between md:items-center">
-        <h2 className="text-3xl font-bold">Your Collections</h2>
+      <div className="flex flex-col md:flex-row gap-2 justify-between md:items-center">
+        <h2 className="text-xl font-bold">Your Collections</h2>
 
-        <span className="text-gray-400">
+        <span className="text-gray-300">
           Showing {filteredCollections.length} of {collections.length}
         </span>
       </div>
@@ -255,7 +255,7 @@ export default function CollectionsPage() {
 
           <h3 className="text-2xl md:text-3xl font-bold">No Collections Found</h3>
 
-          <p className="text-gray-400 mt-3">
+          <p className="text-gray-400 mt-2">
             Create your first collection to start organizing resources.
           </p>
         </div>

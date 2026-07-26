@@ -99,7 +99,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* HERO */}
 
       <div
@@ -116,7 +116,7 @@ export default function DashboardPage() {
 
         backdrop-blur-xl
 
-        p-6 md:p-10
+        p-6 md:p-6
 
         flex
         items-center
@@ -138,7 +138,7 @@ export default function DashboardPage() {
 
           <h1
             className="
-            text-2xl sm:text-3xl md:text-4xl lg:text-5xl
+            text-2xl sm:text-3xl md:text-4xl lg:text-4xl
             font-bold
             mb-4
           "
@@ -206,14 +206,14 @@ lg:text-6xl
       <div className="grid xl:grid-cols-3 gap-8">
         {/* LEFT */}
 
-        <div className="xl:col-span-2 space-y-8">
+        <div className="xl:col-span-2 space-y-6">
           {/* Recent Resources */}
 
           <div>
-            <div className="flex justify-between items-center mb-5">
-              <h2 className="text-2xl md:text-3xl font-bold">Recent Resources</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl md:text-2xl font-bold">Recent Resources</h2>
 
-              <span className="text-gray-400">{recentLinks.length}</span>
+              <span className="text-gray-300">{recentLinks.length}</span>
             </div>
 
             <div className="space-y-4">
@@ -224,7 +224,7 @@ lg:text-6xl
                   border
                   border-white/10
                   bg-white/[0.03]
-                  p-10
+                  p-8
                   text-center
                 "
                 >
@@ -241,8 +241,8 @@ lg:text-6xl
           {/* Collections */}
 
           <div>
-            <div className="flex justify-between items-center mb-5">
-              <h2 className="text-2xl md:text-3xl font-bold">Collections</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl md:text-2xl font-bold">Collections</h2>
 
               <span className="text-gray-400">{stats.collections}</span>
             </div>
@@ -269,7 +269,7 @@ lg:text-6xl
 
             bg-white/[0.03]
 
-            p-6
+            p-4
           "
           >
             <h3 className="text-xl font-semibold mb-4">Profile</h3>
@@ -292,12 +292,12 @@ lg:text-6xl
 
             bg-white/[0.03]
 
-            p-6
+            p-4
           "
           >
-            <h3 className="text-xl font-semibold mb-5">Activity</h3>
+            <h3 className="text-xl font-semibold mb-4">Activity</h3>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div>
                 ⭐ Favorites:
                 <span className="ml-2 text-violet-400">

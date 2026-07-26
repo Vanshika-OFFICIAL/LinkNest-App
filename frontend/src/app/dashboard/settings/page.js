@@ -49,7 +49,7 @@ const faqs = [
   }
 ];
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* HERO */}
 
       <div
@@ -64,25 +64,25 @@ const faqs = [
         to-white/[0.02]
 
         p-5
-        md:p-8
+        md:p-6
         "
       >
         <p className="uppercase tracking-widest text-violet-400 text-sm">
           Account Settings
         </p>
 
-        <h1 className="text-3xl md:text-5xl font-bold mt-3">
+        <h1 className="text-3xl md:text-4xl font-bold mt-2">
           Settings ⚙️
         </h1>
 
-        <p className="text-gray-400 mt-3">
+        <p className="text-gray-400 mt-2">
           Manage application preferences and support options.
         </p>
       </div>
 
       {/* APPEARANCE */}
 
-      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-4">
         <h2 className="text-xl font-semibold mb-4">
           Appearance
         </h2>
@@ -199,7 +199,7 @@ const faqs = [
     border
     border-white/10
 
-    p-4
+    p-3
     "
   >
     <span>Contact Support</span>
@@ -219,7 +219,7 @@ const faqs = [
     border
     border-white/10
 
-    p-4
+    p-3
     "
   >
     <span>Feature Requests</span>
@@ -234,7 +234,7 @@ const faqs = [
       {/* LEGAL */}
 
       <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-        <h2 className="text-xl font-semibold mb-5">
+        <h2 className="text-xl font-semibold mb-3">
           Legal
         </h2>
   <div className="grid gap-4">

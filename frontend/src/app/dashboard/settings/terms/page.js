@@ -1,7 +1,7 @@
 import Link from "next/link";
 export default function TermsPage() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* HERO */}
     
       <div
@@ -15,8 +15,8 @@ export default function TermsPage() {
         via-violet-500/[0.04]
         to-white/[0.02]
 
-        p-5
-        md:p-8
+        p-4
+        md:p-6
       "
       >
         <Link
@@ -24,7 +24,7 @@ export default function TermsPage() {
   className="
   md:hidden
 
-  mb-6
+  mb-4
 
   h-11
   w-11
@@ -46,7 +46,7 @@ export default function TermsPage() {
   ←
 </Link>
 
-        <h1 className="text-3xl md:text-5xl font-bold mt-3">
+        <h1 className="text-3xl md:text-4xl font-bold mt-3">
           Terms & Conditions 📜
         </h1>
 
@@ -57,9 +57,9 @@ export default function TermsPage() {
 
       {/* CONTENT */}
 
-      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 md:p-8 space-y-8">
+      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 md:p-6 space-y-6">
         <section>
-          <h2 className="text-2xl font-bold mb-3">
+          <h2 className="text-xl font-bold mb-2">
             Acceptance of Terms
           </h2>
 
@@ -70,7 +70,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold mb-3">
+          <h2 className="text-xl font-bold mb-2">
             User Accounts
           </h2>
 
@@ -81,7 +81,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold mb-3">
+          <h2 className="text-xl font-bold mb-2">
             Acceptable Use
           </h2>
 
@@ -92,7 +92,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold mb-3">
+          <h2 className="text-xl font-bold mb-2">
             Intellectual Property
           </h2>
 
@@ -104,7 +104,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold mb-3">
+          <h2 className="text-xl font-bold mb-2">
             Service Availability
           </h2>
 
@@ -115,7 +115,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold mb-3">
+          <h2 className="text-xl font-bold mb-2">
             Limitation of Liability
           </h2>
 
@@ -127,7 +127,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold mb-3">
+          <h2 className="text-xl font-bold mb-2">
             Changes to Terms
           </h2>
 
@@ -139,7 +139,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold mb-3">
+          <h2 className="text-xl font-bold mb-2">
             Contact
           </h2>
 

@@ -94,7 +94,7 @@ export default function LinkCard({
 
       <div
         className="
-        mt-6
+        mt-4
         pt-4
 
         border-t

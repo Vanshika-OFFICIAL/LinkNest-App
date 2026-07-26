@@ -156,9 +156,9 @@ const handleArchive = async (linkId) => {
   }
 };
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* HEADER */}
-      <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 md:p-8">
+      <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-4 md:p-6">
   <div className="flex items-start justify-between gap-4">
     
     <div className="flex-1">
@@ -198,7 +198,7 @@ const handleArchive = async (linkId) => {
         Total Links
       </p>
 
-      <p className="text-3xl font-bold">
+      <p className="text-3xl font-bold items-center">
         {totalLinks}
       </p>
     </div>
@@ -207,45 +207,97 @@ const handleArchive = async (linkId) => {
 </div>
 
       {/* ADD LINK */}
-      <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 md:p-8">
-        <h2 className="text-xl md:text-2xl font-bold mb-6">Add New Link</h2>
+      <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-5">
 
-        <form onSubmit={handleAddLink} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Enter title..."
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-black/20 p-4 outline-none focus:border-violet-500"
-          />
+  <div className="mb-5">
+    <h2 className="text-xl md:text-2xl font-bold">
+      Add New Link
+    </h2>
 
-          <input
-            type="url"
-            placeholder="https://example.com"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-black/20 p-4 outline-none focus:border-violet-500"
-          />
+    <p className="mt-1 text-sm text-gray-400">
+      Save a website, article or documentation inside this collection.
+    </p>
+  </div>
 
-          <button
-            type="submit"
-            className=" w-full md:w-auto px-6 py-3 rounded-xl  bg-gradient-to-r from-violet-600 to-purple-500 font-semibold"
-          >
-            Add Link
-          </button>
-        </form>
-      </div>
+  <form onSubmit={handleAddLink} className="space-y-3">
 
+    <input
+      type="text"
+      placeholder="Enter title..."
+      value={title}
+      onChange={(e) => setTitle(e.target.value)}
+      className="
+        w-full
+        rounded-xl
+        border
+        border-white/10
+        bg-black/20
+        px-4
+        py-3
+        outline-none
+        transition
+        focus:border-violet-500
+      "
+    />
+
+    <input
+      type="url"
+      placeholder="https://example.com"
+      value={url}
+      onChange={(e) => setUrl(e.target.value)}
+      className="
+        w-full
+        rounded-xl
+        border
+        border-white/10
+        bg-black/20
+        px-4
+        py-3
+        outline-none
+        transition
+        focus:border-violet-500
+      "
+    />
+
+    <div className="pt-1">
+      <button
+        type="submit"
+        className="
+          w-full
+          md:w-auto
+
+          rounded-xl
+
+          bg-gradient-to-r
+          from-violet-600
+          to-purple-500
+
+          px-6
+          py-2.5
+
+          font-semibold
+
+          transition
+          hover:scale-[1.02]
+        "
+      >
+        + Add Link
+      </button>
+    </div>
+
+  </form>
+
+</div>
       {/* LINKS */}
       <div>
-        <div className="flex flex-col md:flex-row gap-3 justify-between md:items-center mb-6">
-          <h2 className="text-2xl md:text-3xl  font-bold">Links</h2>
+        <div className="flex flex-col md:flex-row gap-3 justify-between md:items-center mb-4">
+          <h2 className="text-2xl md:text-2xl  font-bold">Links</h2>
 
           <span className="text-gray-400">{links.length} items</span>
         </div>
 
         {links.length === 0 ? (
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-8 md:p-10 text-center">
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 text-center">
             No links found.
           </div>
         ) : (
@@ -253,7 +305,7 @@ const handleArchive = async (linkId) => {
             {links.map((link) => (
               <div
                 key={link._id}
-                className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 hover:border-violet-500/40 transition"
+                className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 hover:border-violet-500/40 transition"
               >
                 {editingId === link._id ? (
                   <>

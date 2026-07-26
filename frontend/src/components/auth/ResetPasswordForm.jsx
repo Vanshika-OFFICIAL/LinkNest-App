@@ -2,55 +2,70 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
 import {
-  User,
-  Mail,
   Lock,
   Eye,
   EyeOff,
   LoaderCircle,
 } from "lucide-react";
 
-import { registerUser } from "@/services/authService";
+import { resetPassword } from "@/services/authService";
 
-export default function RegisterForm() {
+export default function ResetPasswordForm({
+  token,
+}) {
   const router = useRouter();
-
-  const [showPassword, setShowPassword] =
-    useState(false);
 
   const [loading, setLoading] =
     useState(false);
 
+  const [showPassword, setShowPassword] =
+    useState(false);
+
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState(false);
+
   const [formData, setFormData] =
     useState({
-      name: "",
-      email: "",
       password: "",
+      confirmPassword: "",
     });
 
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]:
-        e.target.value,
+      [e.target.name]: e.target.value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (
+      formData.password !==
+      formData.confirmPassword
+    ) {
+      return alert("Passwords do not match.");
+    }
+
     try {
       setLoading(true);
 
-      await registerUser(formData);
+      const res =
+        await resetPassword(token, {
+          password: formData.password,
+        });
+
+      alert(
+        res.data.message ||
+          "Password reset successfully."
+      );
 
       router.push("/login");
     } catch (error) {
       alert(
         error?.response?.data?.message ||
-          "Registration failed"
+          error.message
       );
     } finally {
       setLoading(false);
@@ -62,85 +77,11 @@ export default function RegisterForm() {
       onSubmit={handleSubmit}
       className="space-y-5"
     >
-      {/* Name */}
-
-      <div>
-        <label className="mb-2 block text-sm text-gray-400">
-          Name
-        </label>
-
-        <div className="relative">
-          <User
-            size={18}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
-          />
-
-          <input
-            type="text"
-            name="name"
-            required
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Enter your name"
-            className="
-              w-full
-              rounded-2xl
-              border
-              border-white/10
-              bg-white/[0.03]
-              py-3.5
-              pl-12
-              pr-4
-              outline-none
-              transition
-              focus:border-violet-500
-            "
-          />
-        </div>
-      </div>
-
-      {/* Email */}
-
-      <div>
-        <label className="mb-2 block text-sm text-gray-400">
-          Email
-        </label>
-
-        <div className="relative">
-          <Mail
-            size={18}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
-          />
-
-          <input
-            type="email"
-            name="email"
-            required
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Enter your email"
-            className="
-              w-full
-              rounded-2xl
-              border
-              border-white/10
-              bg-white/[0.03]
-              py-3.5
-              pl-12
-              pr-4
-              outline-none
-              transition
-              focus:border-violet-500
-            "
-          />
-        </div>
-      </div>
-
       {/* Password */}
 
       <div>
         <label className="mb-2 block text-sm text-gray-400">
-          Password
+          New Password
         </label>
 
         <div className="relative">
@@ -159,7 +100,7 @@ export default function RegisterForm() {
             required
             value={formData.password}
             onChange={handleChange}
-            placeholder="Create a password"
+            placeholder="Enter new password"
             className="
               w-full
               rounded-2xl
@@ -178,18 +119,9 @@ export default function RegisterForm() {
           <button
             type="button"
             onClick={() =>
-              setShowPassword(
-                !showPassword
-              )
+              setShowPassword(!showPassword)
             }
-            className="
-              absolute
-              right-4
-              top-1/2
-              -translate-y-1/2
-              text-gray-500
-              hover:text-violet-400
-            "
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-violet-400"
           >
             {showPassword ? (
               <EyeOff size={18} />
@@ -200,7 +132,67 @@ export default function RegisterForm() {
         </div>
       </div>
 
-      {/* Register Button */}
+      {/* Confirm Password */}
+
+      <div>
+        <label className="mb-2 block text-sm text-gray-400">
+          Confirm Password
+        </label>
+
+        <div className="relative">
+          <Lock
+            size={18}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+          />
+
+          <input
+            type={
+              showConfirmPassword
+                ? "text"
+                : "password"
+            }
+            name="confirmPassword"
+            required
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            placeholder="Confirm your password"
+            className="
+              w-full
+              rounded-2xl
+              border
+              border-white/10
+              bg-white/[0.03]
+              py-3.5
+              pl-12
+              pr-12
+              outline-none
+              transition
+              focus:border-violet-500
+            "
+          />
+
+          <button
+            type="button"
+            onClick={() =>
+              setShowConfirmPassword(
+                !showConfirmPassword
+              )
+            }
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-violet-400"
+          >
+            {showConfirmPassword ? (
+              <EyeOff size={18} />
+            ) : (
+              <Eye size={18} />
+            )}
+          </button>
+        </div>
+      </div>
+
+      <p className="text-xs text-gray-500">
+        Use at least 8 characters for a
+        stronger password.
+      </p>
 
       <button
         type="submit"
@@ -211,23 +203,16 @@ export default function RegisterForm() {
           items-center
           justify-center
           gap-2
-
           rounded-2xl
-
           bg-gradient-to-r
           from-violet-500
           to-purple-500
-
           py-3.5
-
           font-semibold
-
           transition-all
           duration-300
-
           hover:scale-[1.02]
           active:scale-[0.98]
-
           disabled:cursor-not-allowed
           disabled:opacity-50
         "
@@ -238,10 +223,10 @@ export default function RegisterForm() {
               size={18}
               className="animate-spin"
             />
-            Creating Account...
+            Resetting...
           </>
         ) : (
-          "Create Account"
+          "Reset Password"
         )}
       </button>
     </form>
