@@ -1,6 +1,7 @@
 const Link = require("../models/Link");
 const Collection = require("../models/Collection");
-//create collection
+
+// Create Collection
 const createCollection = async ({
   name,
   userId,
@@ -14,46 +15,60 @@ const createCollection = async ({
 
   return collection;
 };
-//get all collections for a user
+
+// Get All Collections for a User
 const getCollections = async (userId) => {
   const collections = await Collection.find({
     userId,
   }).sort({ createdAt: -1 });
 
-  return collections;
+  const collectionsWithCount = await Promise.all(
+    collections.map(async (collection) => {
+      const linksCount = await Link.countDocuments({
+        collectionId: collection._id,
+        userId,
+      });
+
+      return {
+        ...collection.toObject(),
+        linksCount,
+      };
+    })
+  );
+
+  return collectionsWithCount;
 };
-//Update collection
+
+// Update Collection
 const updateCollection = async (
   collectionId,
   userId,
   updateData
 ) => {
-  const collection =
-    await Collection.findOneAndUpdate(
-      {
-        _id: collectionId,
-        userId,
-      },
-      updateData,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+  const collection = await Collection.findOneAndUpdate(
+    {
+      _id: collectionId,
+      userId,
+    },
+    updateData,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
   return collection;
 };
-//delete collection and its links means cascade deletion
+
+// Delete Collection and all related Links
 const deleteCollection = async (
   collectionId,
   userId
 ) => {
-
-  const collection =
-    await Collection.findOneAndDelete({
-      _id: collectionId,
-      userId,
-    });
+  const collection = await Collection.findOneAndDelete({
+    _id: collectionId,
+    userId,
+  });
 
   if (!collection) {
     return null;
@@ -66,28 +81,32 @@ const deleteCollection = async (
 
   return collection;
 };
-//get collection by id
+
+// Get Collection by ID
 const getCollectionById = async (
   collectionId,
   userId
 ) => {
-  const collection =
-    await Collection.findOne({
-      _id: collectionId,
-      userId,
-    });
-    if (!collection) {
+  const collection = await Collection.findOne({
+    _id: collectionId,
+    userId,
+  });
+
+  if (!collection) {
     return null;
   }
 
-  const totalLinks =
-    await Link.countDocuments({
-      collectionId,
-      userId,
-    });
+  const linksCount = await Link.countDocuments({
+    collectionId,
+    userId,
+  });
 
-  return { collection, totalLinks };
+  return {
+    ...collection.toObject(),
+    linksCount,
+  };
 };
+
 module.exports = {
   createCollection,
   getCollections,
