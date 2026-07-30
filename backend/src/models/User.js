@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const cloudinary = require("../config/cloudinary");
 
 const userSchema = new mongoose.Schema(
   {
@@ -31,6 +32,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+
+avatarPublicId: {
+  type: String,
+  default: "",
+},
   },
   {
     timestamps: true,

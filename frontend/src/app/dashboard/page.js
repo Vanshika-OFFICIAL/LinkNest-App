@@ -1,15 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import StatsCard from "@/components/dashboard/StatsCard";
 import LinkCard from "@/components/dashboard/LinkCard";
 import CollectionCard from "@/components/dashboard/CollectionCard";
+import WelcomeModal from "@/components/onboarding/WelcomeModal";
 
 import { getCurrentUser } from "@/services/authService";
-import { getAllLinks } from "@/services/linkService";
+import {
+  deleteLink,
+  getAllLinks,
+  toggleArchive,
+  toggleFavorite,
+} from "@/services/linkService";
 import { getCollections } from "@/services/collectionService";
 import { getDashboardStats } from "@/services/dashboardService";
+import { completeOnboarding, hasCompletedOnboarding, resetOnboarding } from "@/lib/onboarding";
 
 const initialStats = {
   totalLinks: 0,
@@ -20,11 +27,13 @@ const initialStats = {
 
 export default function DashboardPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [user, setUser] = useState(null);
   const [stats, setStats] = useState(initialStats);
   const [collections, setCollections] = useState([]);
   const [recentLinks, setRecentLinks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [welcomeOpen, setWelcomeOpen] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -48,7 +57,8 @@ export default function DashboardPage() {
         const fetchedLinks = allLinksRes?.data?.links || [];
         const fetchedStats = statsRes?.data?.stats || initialStats;
 
-        setUser(userRes?.data?.user || null);
+        const currentUser = userRes?.data?.user || null;
+        setUser(currentUser);
         setCollections(fetchedCollections);
         setStats({
           totalLinks: Number(fetchedStats.totalLinks) || 0,
@@ -65,6 +75,13 @@ export default function DashboardPage() {
             )
             .slice(0, 5)
         );
+        const restartRequested = searchParams.get("onboarding") === "restart";
+        if (restartRequested) {
+          resetOnboarding(currentUser?._id);
+        }
+        if (restartRequested || (fetchedCollections.length === 0 && fetchedLinks.length === 0 && !hasCompletedOnboarding(currentUser?._id))) {
+          setWelcomeOpen(true);
+        }
       } catch (error) {
         console.error("Failed to load dashboard data", error);
 
@@ -88,7 +105,96 @@ export default function DashboardPage() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [searchParams]);
+
+  const handleFavorite = async (linkId) => {
+    const selectedLink = recentLinks.find((link) => link._id === linkId);
+
+    try {
+      await toggleFavorite(linkId);
+
+      setRecentLinks((currentLinks) =>
+        currentLinks.map((link) =>
+          link._id === linkId
+            ? { ...link, isFavorite: !link.isFavorite }
+            : link,
+        ),
+      );
+      setStats((currentStats) => ({
+        ...currentStats,
+        favoriteLinks: Math.max(
+          0,
+          currentStats.favoriteLinks + (selectedLink?.isFavorite ? -1 : 1),
+        ),
+      }));
+    } catch (error) {
+      console.error("Failed to update favorite", error);
+    }
+  };
+
+  const handleArchive = async (linkId) => {
+    const selectedLink = recentLinks.find((link) => link._id === linkId);
+
+    try {
+      await toggleArchive(linkId);
+
+      setRecentLinks((currentLinks) =>
+        currentLinks.map((link) =>
+          link._id === linkId
+            ? { ...link, isArchived: !link.isArchived }
+            : link,
+        ),
+      );
+      setStats((currentStats) => ({
+        ...currentStats,
+        archivedLinks: Math.max(
+          0,
+          currentStats.archivedLinks + (selectedLink?.isArchived ? -1 : 1),
+        ),
+      }));
+    } catch (error) {
+      console.error("Failed to update archive", error);
+    }
+  };
+
+  const handleDelete = async (linkId) => {
+    if (!window.confirm("Delete this link permanently?")) return;
+
+    try {
+      await deleteLink(linkId);
+
+      setRecentLinks((currentLinks) =>
+        currentLinks.filter((link) => link._id !== linkId),
+      );
+      setStats((currentStats) => ({
+        ...currentStats,
+        totalLinks: Math.max(0, currentStats.totalLinks - 1),
+      }));
+    } catch (error) {
+      console.error("Failed to delete link", error);
+    }
+  };
+
+  const handleEdit = (link) => {
+    const collectionId = link.collectionId?._id || link.collectionId;
+
+    if (collectionId) {
+      router.push(`/dashboard/collections/${collectionId}`);
+    }
+  };
+
+  const finishOnboarding = () => {
+    completeOnboarding(user?._id);
+    setWelcomeOpen(false);
+    if (searchParams.get("onboarding") === "restart") {
+      router.replace("/dashboard");
+    }
+  };
+
+  const handleStartOnboarding = () => {
+    finishOnboarding();
+    router.push("/dashboard/collections");
+  };
 
   if (loading) {
     return (
@@ -100,6 +206,11 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
+      <WelcomeModal
+        open={welcomeOpen}
+        onStart={handleStartOnboarding}
+        onSkip={finishOnboarding}
+      />
       {/* HERO */}
 
       <div
@@ -232,7 +343,14 @@ lg:text-6xl
                 </div>
               ) : (
                 recentLinks.map((link) => (
-                  <LinkCard key={link._id} link={link} />
+                  <LinkCard
+                    key={link._id}
+                    link={link}
+                    onFavorite={handleFavorite}
+                    onArchive={handleArchive}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                  />
                 ))
               )}
             </div>

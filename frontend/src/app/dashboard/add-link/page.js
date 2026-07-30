@@ -1,17 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { createLink } from "@/services/linkService";
 import { getCollections } from "@/services/collectionService";
+import EmptyCollectionsPrompt from "@/components/dashboard/EmptyCollectionsPrompt";
 
 import { useEffect } from "react";
 
 export default function AddLinkPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [collections, setCollections] = useState([]);
+  const [collectionsLoading, setCollectionsLoading] = useState(true);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -30,6 +33,8 @@ export default function AddLinkPage() {
       setCollections(res.data.collections || []);
     } catch (error) {
       console.error(error);
+    } finally {
+      setCollectionsLoading(false);
     }
   };
 
@@ -54,7 +59,11 @@ export default function AddLinkPage() {
           .filter(Boolean),
       });
 
-      router.push("/dashboard");
+      router.push(
+        formData.collectionId
+          ? `/dashboard/collections/${formData.collectionId}`
+          : "/dashboard",
+      );
     } catch (error) {
       console.error(error);
     } finally {
@@ -64,32 +73,56 @@ export default function AddLinkPage() {
   useEffect(() => {
     fetchCollections();
   }, []);
+
+  useEffect(() => {
+    const collectionId = searchParams.get("collectionId") || searchParams.get("collection");
+
+    if (collectionId) {
+      setFormData((currentData) => ({ ...currentData, collectionId }));
+    }
+  }, [searchParams]);
+
+  if (collectionsLoading) {
+    return <div className="flex min-h-[70vh] items-center justify-center text-slate-400">Loading collections...</div>;
+  }
+
+  if (collections.length === 0) {
+    return (
+      <div className="mx-auto max-w-5xl">
+        <EmptyCollectionsPrompt />
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       {/* HERO */}
 
       <div
         className="
-      rounded-3xl
-      border
-      border-white/10
+rounded-3xl
+border
+border-white/10
 
-      bg-gradient-to-r
-      from-white/[0.04]
-      via-violet-500/[0.04]
-      to-white/[0.02]
+bg-gradient-to-r
+from-white/[0.04]
+via-violet-500/[0.04]
+to-white/[0.02]
 
-     p-5 md:p-6
+p-4
+sm:p-5
+lg:p-6
 
 flex
 flex-col
-md:flex-row
-
-gap-6
+sm:flex-row
 
 justify-between
 items-start
-md:items-center
+sm:items-center
+
+gap-4
+
     "
       >
         <div>

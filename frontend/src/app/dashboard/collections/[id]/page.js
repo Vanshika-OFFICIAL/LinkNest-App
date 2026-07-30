@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import LinkCard from "@/components/dashboard/LinkCard";
+import EmptyCollectionLinksPrompt from "@/components/dashboard/EmptyCollectionLinksPrompt";
 
 import { getCollectionById } from "@/services/collectionService";
 import {
-  createLink,
   getLinksByCollection,
   deleteLink,
   updateLink,
@@ -15,13 +16,11 @@ import {
 
 export default function CollectionDetails() {
   const { id } = useParams();
+  const router = useRouter();
 
   const [collection, setCollection] = useState(null);
   const [totalLinks, setTotalLinks] = useState(0);
   const [links, setLinks] = useState([]);
-
-  const [title, setTitle] = useState("");
-  const [url, setUrl] = useState("");
 
   const [editingId, setEditingId] = useState(null);
   const [editTitle, setEditTitle] = useState("");
@@ -59,28 +58,6 @@ useEffect(() => {
 
   loadData();
 }, [id]);
-
-  const handleAddLink = async (e) => {
-    e.preventDefault();
-
-    if (!title.trim() || !url.trim()) return;
-
-    try {
-      await createLink({
-        title,
-        url,
-        collectionId: id,
-      });
-
-      setTitle("");
-      setUrl("");
-
-      fetchLinks();
-      fetchCollection();
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleDelete = async (linkId) => {
     if (!confirm("Delete this link?")) return;
@@ -206,88 +183,6 @@ const handleArchive = async (linkId) => {
   </div>
 </div>
 
-      {/* ADD LINK */}
-      <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-5">
-
-  <div className="mb-5">
-    <h2 className="text-xl md:text-2xl font-bold">
-      Add New Link
-    </h2>
-
-    <p className="mt-1 text-sm text-gray-400">
-      Save a website, article or documentation inside this collection.
-    </p>
-  </div>
-
-  <form onSubmit={handleAddLink} className="space-y-3">
-
-    <input
-      type="text"
-      placeholder="Enter title..."
-      value={title}
-      onChange={(e) => setTitle(e.target.value)}
-      className="
-        w-full
-        rounded-xl
-        border
-        border-white/10
-        bg-black/20
-        px-4
-        py-3
-        outline-none
-        transition
-        focus:border-violet-500
-      "
-    />
-
-    <input
-      type="url"
-      placeholder="https://example.com"
-      value={url}
-      onChange={(e) => setUrl(e.target.value)}
-      className="
-        w-full
-        rounded-xl
-        border
-        border-white/10
-        bg-black/20
-        px-4
-        py-3
-        outline-none
-        transition
-        focus:border-violet-500
-      "
-    />
-
-    <div className="pt-1">
-      <button
-        type="submit"
-        className="
-          w-full
-          md:w-auto
-
-          rounded-xl
-
-          bg-gradient-to-r
-          from-violet-600
-          to-purple-500
-
-          px-6
-          py-2.5
-
-          font-semibold
-
-          transition
-          hover:scale-[1.02]
-        "
-      >
-        + Add Link
-      </button>
-    </div>
-
-  </form>
-
-</div>
       {/* LINKS */}
       <div>
         <div className="flex flex-col md:flex-row gap-3 justify-between md:items-center mb-4">
@@ -297,15 +192,19 @@ const handleArchive = async (linkId) => {
         </div>
 
         {links.length === 0 ? (
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 text-center">
-            No links found.
-          </div>
+          <EmptyCollectionLinksPrompt
+            onAddLink={() => router.push(`/dashboard/add-link?collectionId=${id}`)}
+          />
         ) : (
           <div className="space-y-5">
             {links.map((link) => (
               <div
                 key={link._id}
-                className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 hover:border-violet-500/40 transition"
+                className={
+                  editingId === link._id
+                    ? "rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition hover:border-violet-500/40"
+                    : ""
+                }
               >
                 {editingId === link._id ? (
                   <>
@@ -339,6 +238,8 @@ const handleArchive = async (linkId) => {
                   </>
                 ) : (
                   <>
+                    {/* Replaced by the shared LinkCard action layout. */}
+                    {/*
                    <div className="flex flex-col md:flex-row justify-between gap-4">
                       <div>
                         <h3 className="text-xl font-semibold">{link.title}</h3>
@@ -433,6 +334,15 @@ const handleArchive = async (linkId) => {
   </button>
 </div>
                     </div>
+                    */}
+                    <LinkCard
+                      link={link}
+                      showCollection={false}
+                      onFavorite={handleFavorite}
+                      onArchive={handleArchive}
+                      onEdit={startEdit}
+                      onDelete={handleDelete}
+                    />
                   </>
                 )}
               </div>

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import Sidebar from "@/components/dashboard/Sidebar";
+import MobileSidebar from "@/components/dashboard/MobileSidebar";
 import Navbar from "@/components/common/Navbar";
 
 export default function DashboardLayout({
@@ -42,11 +43,11 @@ export default function DashboardLayout({
       lg:flex
       "
     >
-      <Sidebar
+      <Sidebar />
+
+      <MobileSidebar
         isOpen={sidebarOpen}
-        closeSidebar={() =>
-          setSidebarOpen(false)
-        }
+        closeSidebar={() => setSidebarOpen(false)}
       />
 
       {sidebarOpen && (
@@ -77,7 +78,7 @@ export default function DashboardLayout({
 
         <main
           className="
-            pt-20
+            pt-5
 
             px-4
             pb-4

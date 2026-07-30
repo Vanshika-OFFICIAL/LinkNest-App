@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import StatsCard from "@/components/dashboard/StatsCard";
 import CollectionCard from "@/components/dashboard/CollectionCard";
@@ -13,6 +13,8 @@ import {
 } from "@/services/collectionService";
 
 import { getDashboardStats } from "@/services/dashboardService";
+import { getAllLinks } from "@/services/linkService";
+import SuccessDialog from "@/components/onboarding/SuccessDialog";
 
 export default function CollectionsPage() {
   const [collections, setCollections] = useState([]);
@@ -24,12 +26,12 @@ export default function CollectionsPage() {
     collections: 0,
   });
 
-  const [search, setSearch] = useState("");
   const [name, setName] = useState("");
   const [editingId, setEditingId] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [createdCollection, setCreatedCollection] = useState(null);
 
   useEffect(() => {
     fetchData();
@@ -39,12 +41,21 @@ export default function CollectionsPage() {
     try {
       setLoading(true);
 
-      const [collectionsRes, statsRes] = await Promise.all([
+      const [collectionsRes, statsRes, linksRes] = await Promise.all([
         getCollections(),
         getDashboardStats(),
+        getAllLinks(),
       ]);
 
-      setCollections(collectionsRes?.data?.collections || []);
+      const links = linksRes?.data?.links || [];
+      setCollections(
+        (collectionsRes?.data?.collections || []).map((collection) => ({
+          ...collection,
+          linksCount: links.filter(
+            (link) => (link.collectionId?._id || link.collectionId) === collection._id,
+          ).length,
+        })),
+      );
 
       setStats(
         statsRes?.data?.stats || {
@@ -74,9 +85,10 @@ export default function CollectionsPage() {
           name,
         });
       } else {
-        await createCollection({
+        const response = await createCollection({
           name,
         });
+        setCreatedCollection(response.data.collection);
       }
 
       setName("");
@@ -125,12 +137,6 @@ export default function CollectionsPage() {
     }
   };
 
-  const filteredCollections = useMemo(() => {
-    return collections.filter((collection) =>
-      collection.name?.toLowerCase().includes(search.toLowerCase()),
-    );
-  }, [collections, search]);
-
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[70vh]">
@@ -141,6 +147,14 @@ export default function CollectionsPage() {
 
   return (
     <div className="space-y-6">
+      <SuccessDialog
+        open={Boolean(createdCollection)}
+        title="✅ Collection Created!"
+        message="Your collection is ready. Now let's add your first resource."
+        actionLabel="Add First Link"
+        onAction={() => router.push(`/dashboard/add-link?collection=${createdCollection?._id}`)}
+        onClose={() => setCreatedCollection(null)}
+      />
       {/* HERO */}
 
       <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-4 md:p-6">
@@ -215,41 +229,19 @@ export default function CollectionsPage() {
         </form>
       </div>
 
-      {/* SEARCH */}
-
-      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-4 md:p-4">
-        <input
-          type="text"
-          placeholder="Search collections..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="
-            w-full
-            rounded-xl
-            border
-            border-white/10
-            bg-black/20
-            px-4
-            py-3
-            outline-none
-            focus:border-violet-500
-          "
-        />
-      </div>
-
       {/* HEADER */}
 
       <div className="flex flex-col md:flex-row gap-2 justify-between md:items-center">
         <h2 className="text-xl font-bold">Your Collections</h2>
 
         <span className="text-gray-300">
-          Showing {filteredCollections.length} of {collections.length}
+          {collections.length} collections
         </span>
       </div>
 
       {/* COLLECTIONS */}
 
-      {filteredCollections.length === 0 ? (
+      {collections.length === 0 ? (
         <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 md:p-16 text-center">
           <div className="text-7xl mb-4">📂</div>
 
@@ -261,7 +253,7 @@ export default function CollectionsPage() {
         </div>
       ) : (
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {filteredCollections.map((collection) => (
+          {collections.map((collection) => (
             <CollectionCard
               key={collection._id}
               collection={collection}

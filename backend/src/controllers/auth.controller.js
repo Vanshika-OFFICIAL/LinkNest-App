@@ -1,3 +1,6 @@
+const cloudinary = require("../config/cloudinary");
+const fs = require("fs");
+
 const User = require("../models/User");
 const generateToken = require("../utils/generateToken");
 const { loginUser,
@@ -19,6 +22,7 @@ const register = async (req, res) => {
         name: user.name,
         email: user.email,
         avatar: user.avatar,
+        avatarPublicId: user.avatarPublicId,
       },
     });
   } catch (error) {
@@ -58,6 +62,8 @@ const getMe = async (req, res) => {
       id: req.user._id,
       name: req.user.name,
       email: req.user.email,
+      avatar: req.user.avatar,
+      avatarPublicId: req.user.avatarPublicId,
       createdAt: req.user.createdAt,
     },
   });
@@ -70,6 +76,9 @@ const updateProfile = async (
   try {
     const user =
       await User.findById(req.user._id);
+      console.log("BODY:", req.body);
+console.log("FILE:", req.file);
+console.log("ENV:", process.env.CLOUDINARY_CLOUD_NAME);
 
     if (!user) {
       return res.status(404).json({
@@ -83,7 +92,25 @@ const updateProfile = async (
 
     user.email =
       req.body.email || user.email;
+if (req.file) {
 
+  if (user.avatarPublicId) {
+    await cloudinary.uploader.destroy(user.avatarPublicId);
+  }
+
+  const result = await cloudinary.uploader.upload(req.file.path, {
+    folder: "linknest/profile",
+  });
+
+  console.log("RESULT:", result); 
+  
+  user.avatar = result.secure_url;
+  user.avatarPublicId = result.public_id;
+
+  if (fs.existsSync(req.file.path)) {
+  fs.unlinkSync(req.file.path);
+}
+}
     await user.save();
 
     res.status(200).json({
@@ -92,6 +119,7 @@ const updateProfile = async (
         id: user._id,
         name: user.name,
         email: user.email,
+        avatar: user.avatar,
       },
     });
   } catch (error) {

@@ -12,24 +12,18 @@ export const logoutUser = () =>
 export const getCurrentUser = () =>
   api.get("/auth/me");
 
-export const updateProfile = (data) =>
-  api.patch("/auth/profile", data);
+export const updateProfile = (formData) =>
+  api.patch("/auth/profile", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
-export const changePassword =
-  (data) =>
-    api.patch(
-      "/auth/change-password",
-      data
-    );
+export const changePassword = (data) =>
+  api.patch("/auth/change-password", data);
 
-    export const forgotPassword = (data) =>
+export const forgotPassword = (data) =>
   api.post("/auth/forgot-password", data);
 
-export const resetPassword = (
-  token,
-  data
-) =>
-  api.post(
-    `/auth/reset-password/${token}`,
-    data
-  );
+export const resetPassword = (token, data) =>
+  api.post(`/auth/reset-password/${token}`, data);

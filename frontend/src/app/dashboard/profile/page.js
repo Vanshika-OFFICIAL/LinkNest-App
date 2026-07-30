@@ -49,26 +49,31 @@ function saveAvatarSnapshot(userId, avatar) {
 async function getCroppedImage(imageSrc, cropPixels) {
   const image = await new Promise((resolve, reject) => {
     const nextImage = new Image();
+
     nextImage.onload = () => resolve(nextImage);
-    nextImage.onerror = () => reject(new Error("Unable to load the selected image."));
+    nextImage.onerror = () =>
+      reject(new Error("Unable to load the selected image."));
+
     nextImage.src = imageSrc;
   });
-  const canvas = document.createElement("canvas");
+const canvas = document.createElement("canvas");
   const size = Math.min(cropPixels.width, cropPixels.height);
+
+  canvas.width = size;
+  canvas.height = size;
+
   const context = canvas.getContext("2d");
 
   if (!context) {
     throw new Error("Unable to crop the selected image.");
   }
 
-  canvas.width = size;
-  canvas.height = size;
-
   context.save();
   context.beginPath();
   context.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
   context.closePath();
   context.clip();
+
   context.drawImage(
     image,
     cropPixels.x,
@@ -80,9 +85,20 @@ async function getCroppedImage(imageSrc, cropPixels) {
     size,
     size
   );
+
   context.restore();
 
-  return canvas.toDataURL("image/png");
+  const blob = await new Promise((resolve) =>
+    canvas.toBlob(resolve, "image/png")
+  );
+
+  if (!blob) {
+    throw new Error("Unable to create cropped image.");
+  }
+
+  return new File([blob], `avatar-${Date.now()}.png`, {
+    type: "image/png",
+  });
 }
 
 function Avatar({
@@ -390,7 +406,7 @@ export default function ProfilePage() {
   const [submitError, setSubmitError] = useState("");
   const [cropError, setCropError] = useState("");
   const [profileAvatar, setProfileAvatar] = useState("");
-  const [draftAvatar, setDraftAvatar] = useState({ preview: "", data: "", dirty: false });
+  const [draftAvatar, setDraftAvatar] = useState({ preview: "",  file: null, dirty: false });
   const [cropSourceImage, setCropSourceImage] = useState("");
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -421,7 +437,7 @@ export default function ProfilePage() {
       setName(currentUser.name || "");
       setEmail(currentUser.email || "");
       setProfileAvatar(committedAvatar);
-      setDraftAvatar({ preview: "", data: "", dirty: false });
+      setDraftAvatar({ preview: "", file: null, dirty: false });
       setCropSourceImage("");
       setCropPreviewSrc("");
       setActiveModal(null);
@@ -478,7 +494,7 @@ export default function ProfilePage() {
     setSubmitError("");
     setName(user?.name || "");
     setEmail(user?.email || "");
-    setDraftAvatar({ preview: "", data: "", dirty: false });
+    setDraftAvatar({ preview: "", file: null, dirty: false });
   };
 
   const closeCropModal = () => {
@@ -521,7 +537,7 @@ export default function ProfilePage() {
     setCrop({ x: 0, y: 0 });
     setZoom(1);
     setCroppedAreaPixels(null);
-    setDraftAvatar({ preview: "", data: "", dirty: false });
+    setDraftAvatar({ preview: "", file: null, dirty: false });
 
     const previewUrl = URL.createObjectURL(file);
     setCropSourceImage(previewUrl);
@@ -530,51 +546,66 @@ export default function ProfilePage() {
   };
 
   const handleRemovePhoto = () => {
-    setDraftAvatar({ preview: "", data: "", dirty: true });
+    setDraftAvatar({ preview: "", file: null, dirty: true });
     setFieldErrors((currentErrors) => ({ ...currentErrors, avatar: "" }));
     setActiveModal("edit");
   };
 
   const handleCropComplete = async (_croppedArea, nextPixels) => {
-    setCroppedAreaPixels(nextPixels);
+  setCroppedAreaPixels(nextPixels);
 
-    if (!cropSourceImage || !nextPixels) {
-      return;
+  if (!cropSourceImage || !nextPixels) return;
+
+  const requestId = previewRequestRef.current + 1;
+  previewRequestRef.current = requestId;
+
+  try {
+    const file = await getCroppedImage(
+      cropSourceImage,
+      nextPixels
+    );
+
+    const preview = URL.createObjectURL(file);
+
+    if (previewRequestRef.current === requestId) {
+      setCropPreviewSrc(preview);
     }
-
-    const requestId = previewRequestRef.current + 1;
-    previewRequestRef.current = requestId;
-
-    try {
-      const preview = await getCroppedImage(cropSourceImage, nextPixels);
-      if (previewRequestRef.current === requestId) {
-        setCropPreviewSrc(preview);
-      }
-    } catch (previewError) {
-      console.error(previewError);
-    }
-  };
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   const handleSaveCroppedAvatar = async () => {
-    if (!cropSourceImage || !croppedAreaPixels) {
-      setCropError("Please adjust the crop before saving.");
-      return;
-    }
+  if (!cropSourceImage || !croppedAreaPixels) {
+    setCropError("Please adjust the crop before saving.");
+    return;
+  }
 
-    setCropSaving(true);
-    setCropError("");
+  setCropSaving(true);
+  setCropError("");
 
-    try {
-      const croppedAvatar = cropPreviewSrc || (await getCroppedImage(cropSourceImage, croppedAreaPixels));
-      setDraftAvatar({ preview: croppedAvatar, data: croppedAvatar, dirty: true });
-      closeCropModal();
-    } catch (cropSaveError) {
-      console.error(cropSaveError);
-      setCropError(cropSaveError?.message || "Unable to crop the selected image.");
-    } finally {
-      setCropSaving(false);
-    }
-  };
+  try {
+    const file = await getCroppedImage(
+      cropSourceImage,
+      croppedAreaPixels
+    );
+
+    setDraftAvatar({
+      preview: URL.createObjectURL(file),
+      file,
+      dirty: true,
+    });
+
+    closeCropModal();
+  } catch (error) {
+    console.error(error);
+    setCropError(
+      error?.message || "Unable to crop the selected image."
+    );
+  } finally {
+    setCropSaving(false);
+  }
+};
 
   const validateForm = () => {
     const nextErrors = {};
@@ -603,18 +634,18 @@ export default function ProfilePage() {
     setSubmitError("");
 
     try {
-      const payload = {
-        name: name.trim(),
-        email: email.trim(),
-      };
+     const formData = new FormData();
 
-      if (draftAvatar.dirty) {
-        payload.avatar = draftAvatar.data || "";
-      }
+formData.append("name", name);
+formData.append("email", email);
 
-      const response = await updateProfile(payload);
+if (draftAvatar.file) {
+    formData.append("profileImage", draftAvatar.file);
+}
+
+      const response = await updateProfile(formData);
       const updatedUser = response?.data?.user || {};
-      const committedAvatar = draftAvatar.dirty ? draftAvatar.data : profileAvatar;
+      const committedAvatar = response.data.user.avatar;
       const nextUser = {
         ...user,
         ...updatedUser,
@@ -623,7 +654,7 @@ export default function ProfilePage() {
 
       setUser(nextUser);
       setProfileAvatar(committedAvatar || "");
-      setDraftAvatar({ preview: "", data: "", dirty: false });
+      setDraftAvatar({ preview: "", file: null, dirty: false });
      setActiveModal(null);
 
       if (typeof window !== "undefined") {
