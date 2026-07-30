@@ -12,9 +12,16 @@
 
 ## 🌐 Live Demo
 
-🔗 Frontend: https://link-nest-app.vercel.app/
+**Frontend:** https://link-nest-app.vercel.app/
 
-🔗 Backend API: https://linknest-app-isbp.onrender.com/api
+**Backend API:** https://linknest-app-isbp.onrender.com/api
+
+### Demo Account
+
+Use the following credentials to explore the application:
+
+**Email:** `test@gmail.com`  
+**Password:** `Test123`
 
 ---
 ## 📑 Table of Contents
@@ -352,9 +359,10 @@ LinkNest
 - Persistent User Sessions
 - Protected API Routes
   
-<img width="1897" height="916" alt="image" src="https://github.com/user-attachments/assets/5484c296-3793-4408-a12a-467f2b477e8d" />
+<img width="1890" height="930" alt="image" src="https://github.com/user-attachments/assets/c7a6f9a0-e8cd-4a28-8bd8-46d5be7008a2" />
+
 <br/>
-<img width="1882" height="910" alt="image" src="https://github.com/user-attachments/assets/193efbae-5b99-4c49-9147-5cce51d49bdd" />
+<img width="1890" height="915" alt="image" src="https://github.com/user-attachments/assets/fbf8489f-b952-418f-8c59-fa5f6750fdf2" />
 
 ## Authorization
 
