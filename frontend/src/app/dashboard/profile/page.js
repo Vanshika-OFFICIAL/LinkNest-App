@@ -16,7 +16,7 @@ import {
 import Cropper from "react-easy-crop";
 
 import { getCurrentUser, updateProfile } from "@/services/authService";
-
+import { useAuth } from "@/context/AuthContext";
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const avatarStoragePrefix = "linknest-profile-avatar:";
 
@@ -395,6 +395,7 @@ function AvatarCropModal({
 
 export default function ProfilePage() {
   const [user, setUser] = useState(null);
+  const { setUser: setAuthUser } = useAuth();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeModal, setActiveModal] = useState(null);
@@ -653,6 +654,7 @@ if (draftAvatar.file) {
       };
 
       setUser(nextUser);
+      setAuthUser(nextUser);g
       setProfileAvatar(committedAvatar || "");
       setDraftAvatar({ preview: "", file: null, dirty: false });
      setActiveModal(null);

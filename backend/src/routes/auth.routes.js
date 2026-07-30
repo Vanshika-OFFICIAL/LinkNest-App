@@ -28,6 +28,10 @@ router.get("/me", protect, getMe);
 // Update Profile (Image + Name + Email)
 router.patch(
   "/profile",
+  (req, res, next) => {
+    console.log("🔥 Route Hit");
+    next();
+  },
   protect,
   upload.single("profileImage"),
   updateProfile
