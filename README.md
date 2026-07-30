@@ -1,6 +1,6 @@
 # 🚀 LinkNest
 
->A modern full-stack Knowledge Management Platform built with Next.js, Node.js, Express.js, and MongoDB Atlas that helps users organize, discover, and manage digital resources through collections, favorites, archives, search, analytics, and secure authentication.
+> A production-ready full-stack Knowledge Management Platform built with Next.js, Express.js, MongoDB Atlas, and JWT Authentication that helps users organize, search, favorite, archive, and manage digital resources through intelligent collections.
 
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![Frontend](https://img.shields.io/badge/Frontend-Next.js-black)
@@ -17,6 +17,20 @@
 🔗 Backend API: https://linknest-app-isbp.onrender.com/api
 
 ---
+## 📑 Table of Contents
+
+- Overview
+- Problem Statement
+- Solution
+- Features
+- Screenshots
+- Architecture
+- Tech Stack
+- Deployment
+- API
+- Installation
+- Future Scope
+  
 
 # 📖 Overview
 
@@ -167,6 +181,10 @@ Track:
 * User Information
 * Dashboard Statistics
 * Personalized Experience
+* Avatar Upload
+* Cloudinary Image Storage
+* Profile Picture Management
+  
   <br/>
   <img width="1883" height="906" alt="image" src="https://github.com/user-attachments/assets/ece0f94d-b4ce-418c-9a20-3213a77048b8" />
 
@@ -208,19 +226,23 @@ Includes:
 # 🏗 System Architecture
 
 ```text
+Browser
+      │
+      ▼
 Next.js Frontend
-        │
-        ▼
+      │
  REST APIs
-        │
-        ▼
- Express.js Backend
-        │
-        ▼
- Service Layer
-        │
-        ▼
- MongoDB Atlas
+      │
+      ▼
+Express.js Backend
+      │
+      ▼
+Business Logic
+      │
+      ├────────► Cloudinary
+      │
+      ▼
+MongoDB Atlas
 ```
 
 ---
@@ -263,6 +285,8 @@ LinkNest
 * Framer Motion
 * Axios
 * Lucide React
+* Cloudinary
+* Multer
 
 ---
 
@@ -285,7 +309,11 @@ LinkNest
 
 * JWT
 * bcryptjs
-
+* Forgot Password
+* Reset Password
+* Token Validation
+* Persistent Login
+  
 ---
 
 ## Development Tools
@@ -304,24 +332,40 @@ LinkNest
 | Frontend | Vercel |
 | Backend | Render |
 | Database | MongoDB Atlas |
+| Image Storage | Cloudinary |
 
 ![Frontend Hosting](https://img.shields.io/badge/Frontend-Vercel-black)
 ![Backend Hosting](https://img.shields.io/badge/Backend-Render-blue)
+![Database](https://img.shields.io/badge/Database-MongoDB-success)
+![Cloudinary](https://img.shields.io/badge/Image-Cloudinary-blue)
 
 ---
 # 🔒 Security
 
 ## Password Security
 
-Passwords are hashed using bcrypt before storage.
+- Passwords are securely hashed using **bcrypt** before storage.
 
 ## Authentication
 
-JWT-based authentication protects private routes and APIs.
+- JWT-based Authentication
+- Persistent User Sessions
+- Protected API Routes
 
 ## Authorization
 
-Ownership-based access control ensures users can only access their own resources.
+- Ownership-based access control
+- Users can only access and modify their own collections and resources.
+
+## Password Recovery
+
+- Secure Forgot Password Flow
+- Reset Password using Time-Limited Tokens
+
+## Image Security
+
+- Avatar images are securely stored using **Cloudinary**.
+  
 <br/>
 <img width="1882" height="922" alt="image" src="https://github.com/user-attachments/assets/a364f0f7-d992-4b07-93b5-9f5298245062" />
 <br/>
@@ -363,6 +407,10 @@ npm run dev
 PORT
 MONGO_URI
 JWT_SECRET
+FRONTEND_URL
+CLOUDINARY_CLOUD_NAME
+CLOUDINARY_API_KEY
+CLOUDINARY_API_SECRET
 ```
 
 ## Frontend (.env.local)
@@ -377,16 +425,19 @@ NEXT_PUBLIC_API_URL
 
 ## 📚 API Modules
 
-## Authentication
+## 🔐 Authentication
 
 ```http
 POST /api/auth/register
 POST /api/auth/login
 POST /api/auth/logout
 GET  /api/auth/me
+
+POST /api/auth/forgot-password
+POST /api/auth/reset-password
 ```
 
-## Collections
+## 📁 Collections
 
 ```http
 POST   /api/collections
@@ -394,9 +445,11 @@ GET    /api/collections
 GET    /api/collections/:id
 PATCH  /api/collections/:id
 DELETE /api/collections/:id
+
+GET    /api/collections/totals
 ```
 
-## Links
+## 🔗 Links
 
 ```http
 POST   /api/links
@@ -417,7 +470,7 @@ GET    /api/links/archived
 GET    /api/links/search
 ```
 
-## Dashboard
+## 📊 Dashboard
 
 ```http
 GET /api/dashboard/stats
@@ -440,39 +493,57 @@ GET /api/dashboard/stats
 | Resource Management | ❌                 | ✅        |
 
 ---
+# 🚧 Engineering Challenges
 
+During development, several engineering challenges were addressed:
+
+- Designing scalable MongoDB schemas
+- Implementing JWT Authentication and Protected Routes
+- Building secure Forgot & Reset Password workflow
+- Managing image uploads with Cloudinary
+- Handling ownership-based authorization
+- Designing reusable React components
+- Implementing responsive dashboard layouts
+- Optimizing collection link count using MongoDB queries
+- Deploying frontend and backend separately using Vercel & Render
+- Managing production environment variables
+
+  
 # 🚀 Future Enhancements
 
-* AI Resource Summarization
-* Browser Extension
-* Public Collection Sharing
-* Smart Recommendations
-* Resource Metadata Preview
-* Team Collaboration
-* Activity Tracking
-* Progressive Web App (PWA)
-* Android APK using Capacitor
-* Docker Containerization
+- AI Resource Summarization
+- Browser Extension
+- Public Collection Sharing
+- Smart Recommendations
+- AI-powered Tag Suggestions
+- Team Collaboration
+- Resource Metadata Preview
+- Activity Timeline
+- Progressive Web App (PWA)
+- Docker Containerization
+- Offline Support
+- Dark / Light Theme
 
 ---
 
 # 🎯 Key Learnings
 
-This project provided hands-on experience with:
+Building LinkNest provided practical experience with:
 
-* Full-Stack Application Development
-* Next.js Application Architecture
-* JWT Authentication
-* REST API Design
-* MongoDB Data Modeling
-* Mongoose Populate
-* Service Layer Architecture
-* Search Implementation using Regex
-* Protected Routes
-* Dashboard Analytics
-* Responsive UI Development
-* Production Deployment Workflow
-
+- Full-Stack Application Development
+- Next.js App Router
+- REST API Design
+- Express.js Backend Architecture
+- MongoDB Data Modeling
+- Mongoose Relationships
+- JWT Authentication & Authorization
+- Secure Password Recovery
+- Cloudinary Image Upload
+- Responsive UI Development
+- Service Layer Architecture
+- Production Deployment with Vercel & Render
+- Environment Variable Management
+- Git & GitHub Workflow
 ---
 
 # 👩‍💻 Author
@@ -487,4 +558,6 @@ Focused on building scalable web applications, modern user experiences, and prod
 
 # ⭐ Support
 
-If you found this project useful, consider giving it a star.
+If you found this project useful, please consider giving it a ⭐ on GitHub.
+
+Feedback, suggestions, and contributions are always welcome!
