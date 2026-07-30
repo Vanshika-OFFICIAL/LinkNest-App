@@ -10,6 +10,12 @@
 
 ---
 
+## 🌐 Live Demo
+
+**Frontend:** https://link-nest-app.vercel.app/
+
+**Backend API:** https://linknest-app-isbp.onrender.com/api
+
 ### Demo Account
 
 Use the following credentials to explore the application:
