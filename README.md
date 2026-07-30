@@ -107,7 +107,7 @@ LinkNest provides:
 * Collection-Based Navigation
 * Cascade Deletion Support
   <br/>
-<img width="1887" height="911" alt="image" src="https://github.com/user-attachments/assets/95b04c5c-8807-4625-85cb-827bd994bd82" />
+  <img width="1883" height="917" alt="image" src="https://github.com/user-attachments/assets/99307488-dff7-4a1c-a8e9-c8dc91de23d7" />
 
 ---
 
@@ -128,7 +128,7 @@ LinkNest provides:
 * Dedicated Favorites Section
 * Quick Resource Retrieval
   <br/>
-<img width="1880" height="911" alt="image" src="https://github.com/user-attachments/assets/0835605a-04a7-4463-a2b6-8d43480473c5" />
+  <img width="1903" height="911" alt="image" src="https://github.com/user-attachments/assets/0213cd41-e069-452e-acbb-bfbd50bdcae7" />
 
 ---
 
@@ -137,8 +137,7 @@ LinkNest provides:
 * Archive Resources
 * Restore Workflow Ready
 * Workspace Cleanup
-
-<img width="1887" height="917" alt="image" src="https://github.com/user-attachments/assets/5400365d-3607-4a83-bc37-dfea87fd7036" />
+<img width="1910" height="918" alt="image" src="https://github.com/user-attachments/assets/c10a36e4-442f-4e1f-bf33-222344082288" />
 
 ---
 
@@ -157,7 +156,7 @@ Features:
 * Search Suggestions
 * Global Resource Discovery
   
-<img width="373" height="802" alt="image" src="https://github.com/user-attachments/assets/b1ef35fe-0d46-49f5-84a6-7c58dac4e8d6" />
+  <img width="1883" height="907" alt="image" src="https://github.com/user-attachments/assets/f79af6c6-a5ab-461f-b26f-370ea276b394" />
 
 ---
 
@@ -171,7 +170,7 @@ Track:
 * Archived Resources
 * Recent Activity
   <br/>
-<img width="1907" height="915" alt="image" src="https://github.com/user-attachments/assets/ca3ff830-d89e-4835-a5b8-2b8ea451da01" />
+<img width="1886" height="912" alt="image" src="https://github.com/user-attachments/assets/e9fba6b0-860b-40e9-a734-c4c2c66acfb3" />
 
 ---
 
@@ -186,7 +185,7 @@ Track:
 * Profile Picture Management
   
   <br/>
-  <img width="1883" height="906" alt="image" src="https://github.com/user-attachments/assets/ece0f94d-b4ce-418c-9a20-3213a77048b8" />
+  <img width="1901" height="922" alt="image" src="https://github.com/user-attachments/assets/0e660a1a-4125-40d6-b37f-538455940f02" />
 
 ---
 
@@ -196,7 +195,7 @@ Track:
 * Terms & Conditions
 * Privacy Policy
   <br/>
-<img width="1896" height="913" alt="image" src="https://github.com/user-attachments/assets/d679fec5-1ba1-45f0-abe7-0e77d4a312e4" />
+  <img width="1876" height="910" alt="image" src="https://github.com/user-attachments/assets/001b8709-d132-444f-836b-c995b3795a90" />
 
 ---
 
@@ -215,9 +214,10 @@ Includes:
 * Responsive Dashboard
 * Responsive Authentication Pages
 <br/>
-  <img width="377" height="807" alt="image" src="https://github.com/user-attachments/assets/c2527b5b-ed11-4f57-8e3f-73ecc09a02d6" />
-  
-  <img width="361" height="803" alt="image" src="https://github.com/user-attachments/assets/26dcaac6-9d63-4eb6-957e-1003d43edd94" />
+<img width="371" height="807" alt="image" src="https://github.com/user-attachments/assets/16dba4db-afcb-4c99-a9e7-eb1f1406893a" />
+<br/>
+
+<img width="375" height="802" alt="image" src="https://github.com/user-attachments/assets/a96c3e6a-4c91-4bed-bf1c-fb994418ae73" />
 
 
 
@@ -351,6 +351,10 @@ LinkNest
 - JWT-based Authentication
 - Persistent User Sessions
 - Protected API Routes
+  
+<img width="1897" height="916" alt="image" src="https://github.com/user-attachments/assets/5484c296-3793-4408-a12a-467f2b477e8d" />
+<br/>
+<img width="1882" height="910" alt="image" src="https://github.com/user-attachments/assets/193efbae-5b99-4c49-9147-5cce51d49bdd" />
 
 ## Authorization
 
@@ -361,15 +365,13 @@ LinkNest
 
 - Secure Forgot Password Flow
 - Reset Password using Time-Limited Tokens
+  
+<img width="1891" height="913" alt="image" src="https://github.com/user-attachments/assets/a1f68c06-cebf-4ace-87bd-6ff18f6eab2e" />
+
 
 ## Image Security
 
 - Avatar images are securely stored using **Cloudinary**.
-  
-<br/>
-<img width="1882" height="922" alt="image" src="https://github.com/user-attachments/assets/a364f0f7-d992-4b07-93b5-9f5298245062" />
-<br/>
-<img width="1881" height="917" alt="image" src="https://github.com/user-attachments/assets/1b0c2c71-7426-424a-b8e4-0066ccf2f655" />
 
 ---
 # ⚙️ Local Setup
