@@ -12,6 +12,7 @@ const folderThemes = [
 ];
 
 export default function CollectionCard({ collection, onEdit, onDelete }) {
+ 
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const themeIndex = collection.name?.charCodeAt(0) % folderThemes.length || 0;
