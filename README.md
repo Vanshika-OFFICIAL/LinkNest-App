@@ -16,6 +16,9 @@
 
 🔗 Backend API: https://linknest-app-isbp.onrender.com/api
 
+Demo credentials:
+Test@gmail.com
+Password: Test123
 ---
 ## 📑 Table of Contents
 
