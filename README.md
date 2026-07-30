@@ -10,15 +10,13 @@
 
 ---
 
-## 🌐 Live Demo
+### Demo Account
 
-🔗 Frontend: https://link-nest-app.vercel.app/
+Use the following credentials to explore the application:
 
-🔗 Backend API: https://linknest-app-isbp.onrender.com/api
+**Email:** `test@gmail.com`  
+**Password:** `Test123`
 
-Demo credentials:
-Test@gmail.com
-Password: Test123
 ---
 ## 📑 Table of Contents
 
