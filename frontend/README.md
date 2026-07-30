@@ -1,6 +1,6 @@
 # 🚀 LinkNest Frontend
 
-> Modern Next.js frontend for LinkNest — a personal knowledge management platform designed to organize, discover, and manage digital resources efficiently.
+> Production-ready Next.js frontend powering LinkNest — a modern personal knowledge management platform for organizing, searching, and managing digital resources with a responsive and intuitive user experience.
 
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![Next.js](https://img.shields.io/badge/Next.js-15-black)
@@ -8,6 +8,10 @@
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-38BDF8)
 
 ---
+## 🌐 Live Demo
+
+🔗 Frontend: https://link-nest-app.vercel.app/
+
 
 ## 📖 Overview
 
@@ -29,193 +33,224 @@ Built using **Next.js 15**, **React**, **Tailwind CSS**, and **Framer Motion**, 
 - Glassmorphism UI
 - Gradient Effects
 
----
+---## 🔐 Authentication
 
-### 🔐 Authentication
+### Login
 
-#### Login
-
-- Secure Login Form
-- JWT Integration
-- Validation
+- Clean Login Interface
+- Form Validation
+- Remember Me Support
 - Error Handling
+- Loading States
 
-#### Registration
+### Registration
 
-- Account Creation
-- User Validation
-- Authentication Flow
+- User Registration Form
+- Input Validation
+- Password Visibility Toggle
+- Responsive Layout
 
-#### Authentication Banner
+### Password Recovery
 
-- Product Showcase
-- Dashboard Preview
-- Feature Highlights
+- Forgot Password Page
+- Reset Password Page
+- Validation Messages
+- Success & Error Feedback
 
+### Authentication UI
+
+- Responsive Authentication Layout
+- Product Showcase Banner
+- Smooth Page Transitions
 ---
 
-### 📊 Dashboard
+## 📊 Dashboard
 
-#### Overview
+### Dashboard Overview
 
-- Total Links
-- Collections
-- Favorites
-- Archived Resources
+- Dashboard Summary Cards
+- Recent Resources
+- Responsive Dashboard Layout
 
-#### Collections
+### Collections
 
-- Create Collections
-- Update Collections
-- Delete Collections
+- Create Collection
+- Edit Collection
+- Delete Collection
+- Collection Link Count Display
 
-#### Links
+### Resource Management
 
-- Add Resources
-- Edit Resources
-- Delete Resources
+- Add Resource
+- Edit Resource
+- Delete Resource
 
-#### Favorites
+### Favorites
 
-- Quick Resource Access
+- Dedicated Favorites Page
 
-#### Archive
+### Archive
 
-- Archive Resources
+- Archived Resources View
 
-#### Profile
+### Profile
 
-- User Information
-- Dashboard Summary
+- User Profile
+- Avatar Upload
+- Profile Preview
 
-#### Settings
+### Settings
 
+- Profile Settings
 - Privacy Policy
-- Terms & Conditions
+- Terms & Conditions---
 
----
-
-### 🔍 Search Experience
+## 🔍 Search Experience
 
 - Real-Time Search
-- Search Suggestions
-- Title Search
-- Description Search
-- Tag Search
-- Collection Search
-
+- Search by Title
+- Search by Description
+- Search by Tags
+- Search by Collection
+- Instant Filtering
 ---
 
-### 📱 Responsive Design
+## 📱 Responsive Design
 
 Optimized for:
 
-- Mobile Devices
-- Tablets
-- Laptops
-- Large Screens
+- Mobile
+- Tablet
+- Laptop
+- Desktop
 
 Includes:
 
-- Mobile Navbar
-- Sidebar Navigation
-- Mobile Search
+- Responsive Navigation
+- Mobile Sidebar
 - Responsive Dashboard
+- Responsive Forms
+- Responsive Authentication Pages
 
 ---
 
 ## 🎨 UI Highlights
 
-- Dark Modern Theme
+- Modern Dark Theme
 - Purple Gradient Branding
-- Glassmorphism Components
+- Glassmorphism UI
+- Framer Motion Animations
 - Smooth Hover Effects
-- Animated Sections
-- Framer Motion Integration
+- Responsive Components
+- Loading States
+- Empty States
+- Toast Notifications
 
 ---
 
-## 🛠 Tech Stack
+# 🛠 Tech Stack
 
-### Framework
+## Framework
 
 - Next.js 15
 - React 19
 
-### Styling
+## Routing
+
+- Next.js App Router
+
+## Styling
 
 - Tailwind CSS
 
-### Animation
+## Animation
 
 - Framer Motion
 
-### Networking
+## State Management
+
+- React Context API
+
+## Networking
 
 - Axios
 
-### Icons
+## Icons
 
 - Lucide React
-
 ---
 
-## 📂 Folder Structure
+# 📂 Folder Structure
 
 ```text
 src
 │
 ├── app
-│   ├── dashboard
-│   ├── login
-│   ├── register
-│   ├── profile
-│   └── page.js
 │
 ├── components
 │   ├── auth
 │   ├── common
-│   └── dashboard
-│
-├── services
+│   ├── dashboard
+│   ├── landing
+│   ├── profile
+│   └── settings
 │
 ├── context
 │
-├── assets
-│   ├── images
-│   └── logos
+├── services
 │
-└── styles
+├── hooks
+│
+├── assets
+│
+└── utils
 ```
+# 🏗 Frontend Architecture
 
+```text
+Browser
+     │
+     ▼
+Next.js App Router
+     │
+     ▼
+React Components
+     │
+     ▼
+Context API
+     │
+     ▼
+Axios Services
+```
 ---
 
-## ⚙️ Environment Variables
+# ⚙️ Environment Variables
 
-Create a `.env.local` file:
+Create a `.env.local` file.
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
+NEXT_PUBLIC_API_URL=
 ```
 
 ---
 
-## 🚀 Installation
+# 🚀 Installation
 
-### Clone Repository
+## Clone Repository
 
 ```bash
-git clone <repository-url>
-cd frontend
+git clone https://github.com/Vanshika-OFFICIAL/LinkNest-App.git
+
+cd LinkNest-App/frontend
 ```
 
-### Install Dependencies
+## Install Dependencies
 
 ```bash
 npm install
 ```
 
-### Start Development Server
+## Start Development Server
 
 ```bash
 npm run dev
@@ -226,15 +261,19 @@ Application runs at:
 ```text
 http://localhost:3000
 ```
-
 ---
+# 🚀 Deployment
 
-## 🏗 Production Build
+Frontend is deployed using **Vercel**.
 
 ```bash
 npm run build
 npm start
 ```
+
+Deployment Platform:
+
+- Vercel
 
 ---
 
@@ -266,24 +305,31 @@ npm start
 
 ---
 
-## 🎯 Frontend Highlights
+# ⚡ Frontend Highlights
 
-✔ Next.js App Router
+- Next.js App Router
+- Responsive Dashboard
+- Responsive Landing Page
+- Responsive Authentication Pages
+- Component-Based Architecture
+- Reusable UI Components
+- Modern User Experience
+- Smooth Animations
 
-✔ JWT Authentication Flow
+# 🎯 Key Learnings
 
-✔ Responsive Dashboard Layout
+Building the frontend strengthened my skills in:
 
-✔ Real-Time Search
-
-✔ Mobile Navigation
-
-✔ Framer Motion Animations
-
-✔ Glassmorphism Design
-
-✔ Production Build Ready
-
+- Next.js App Router
+- React Component Architecture
+- Tailwind CSS
+- Framer Motion
+- Responsive Web Design
+- Context API
+- Axios Integration
+- Component Reusability
+- UI/UX Development
+- Production Deployment with Vercel
 ---
 
 ## 👩‍💻 Author
